@@ -35,9 +35,13 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="docente_filtro_nombre" min="-2" pref="140" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="docente_btn_renovar" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="docente_btn_renovar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btn_libreria" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -57,7 +61,10 @@
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-              <Component id="docente_btn_renovar" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="docente_btn_renovar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_libreria" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -166,11 +173,22 @@
     </Component>
     <Component class="javax.swing.JButton" name="docente_btn_renovar">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Calibri" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Renovar pr&#xe9;stamo seleccionado"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="docente_btn_renovarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_libreria">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Calibri" size="11" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Ver Libreria"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

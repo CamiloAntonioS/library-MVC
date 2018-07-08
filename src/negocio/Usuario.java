@@ -5,33 +5,45 @@
  */
 package negocio;
 
+import datos.DatosUsuario;
+
 /**
  *
  * @author Renzo
  */
 public class Usuario {
-    
-    public Usuario(int id, String rut, String nombre, int perfil, int sede){
+
+    private int id;
+    private String rut;
+    private String nombre;
+    private int perfil;
+    private int sede;
+    private String username;
+    private String password;
+    private int carrera;
+    private DatosUsuario dbUsuario;
+
+    public Usuario(int id, String rut, String nombre, int perfil, int sede, int carrera) {
         this.id = id;
         this.rut = rut;
         this.nombre = nombre;
         this.perfil = perfil;
         this.sede = sede;
+        this.carrera = carrera;
     }
-    
-    private int id;
-    private String rut;
-    private String nombre;
-    private int perfil;
-    private int sede;    
 
-     /**
+    public Usuario(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    /**
      * @return the id
      */
     public int getId() {
         return id;
     }
-    
+
     /**
      * @return the rut
      */
@@ -59,36 +71,42 @@ public class Usuario {
     public int getSede() {
         return this.sede;
     }
-}
 
-class Alumno extends Usuario{
-    protected int carrera;
-
-    public Alumno(int id, String rut, String nombre, int perfil, int sede, int carrera) {
-        super(id, rut, nombre, perfil, sede);
-        this.carrera = carrera;
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
     }
-    
-     /**
-     * @return the sede
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @return the carrera
      */
     public int getCarrera() {
-        return this.carrera;
+        return carrera;
     }
-}
 
-class Docente extends Usuario{
-    protected int carrera;
-
-    public Docente(int id, String rut, String nombre, int perfil, int sede,int carrera) {
-        super(id, rut, nombre, perfil, sede);
-        this.carrera = carrera;
-    }
-    
-     /**
-     * @return the sede
-     */
-    public int getCarrera() {
-        return this.carrera;
+    public boolean iniciarSesion(String username, String password) throws Exception {
+        dbUsuario = new DatosUsuario();
+        dbUsuario.setUsername(username);
+        dbUsuario.setPassword(password);
+        if (dbUsuario.Buscar()) {
+            this.id = dbUsuario.getId();
+            this.rut = dbUsuario.getRut();
+            this.nombre = dbUsuario.getNombre();
+            this.perfil = dbUsuario.getPerfil();
+            this.sede = dbUsuario.getSede();
+            this.carrera = dbUsuario.getCarrera();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

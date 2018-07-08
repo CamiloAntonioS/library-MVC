@@ -5,11 +5,18 @@
  */
 package vista;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import negocio.Usuario;
+
 /**
  *
  * @author Renzo
  */
 public class Login extends javax.swing.JFrame {
+
+    public static String username;
 
     /**
      * Creates new form login
@@ -101,7 +108,39 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void login_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_submitActionPerformed
-        // TODO add your handling code here:
+        username = login_usuario.getText();
+        String password = login_password.getText();
+        //Validaciones Iniciales para verificar rut
+        if (ValidacionRut.IngresoRut(username)) {
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Rut ingresado no es valido!", "Exito!", JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+        Usuario usuario = new Usuario(username, password);
+        try {
+            if (usuario.iniciarSesion(username, password)) {
+                JOptionPane.showMessageDialog(null, "Acceso Correcto!", "Exito!", JOptionPane.PLAIN_MESSAGE);
+                switch (usuario.getPerfil()) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        Docente docente = new Docente();
+                        docente.setVisible(true);
+                        this.setVisible(false);
+                        break;
+                    case 4:
+                        Alumno alumno = new Alumno();
+                        alumno.setVisible(true);
+                        this.setVisible(false);
+                        break;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_login_submitActionPerformed
 
     /**

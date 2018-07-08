@@ -82,7 +82,7 @@ public class Administrador_Manten_Autor extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel3.setText("Genero Principal:");
+        jLabel3.setText("Categoria Principal:");
 
         jTextField2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +119,7 @@ public class Administrador_Manten_Autor extends javax.swing.JFrame {
                                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(jLabel5)
                         .addComponent(btn_AdminManAutor_agregar))
-                    .addContainerGap(429, Short.MAX_VALUE)))
+                    .addContainerGap(418, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

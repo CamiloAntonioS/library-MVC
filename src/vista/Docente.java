@@ -33,6 +33,7 @@ public class Docente extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         docente_filtro_nombre = new javax.swing.JTextField();
         docente_btn_renovar = new javax.swing.JButton();
+        btn_libreria = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,12 +73,16 @@ public class Docente extends javax.swing.JFrame {
         docente_filtro_nombre.setColumns(10);
         docente_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
 
+        docente_btn_renovar.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         docente_btn_renovar.setText("Renovar préstamo seleccionado");
         docente_btn_renovar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 docente_btn_renovarActionPerformed(evt);
             }
         });
+
+        btn_libreria.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        btn_libreria.setText("Ver Libreria");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,9 +98,12 @@ public class Docente extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(docente_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(docente_btn_renovar))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(docente_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(docente_btn_renovar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_libreria)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -110,7 +118,9 @@ public class Docente extends javax.swing.JFrame {
                     .addComponent(docente_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addComponent(docente_btn_renovar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(docente_btn_renovar)
+                    .addComponent(btn_libreria))
                 .addContainerGap())
         );
 
@@ -158,6 +168,7 @@ public class Docente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_libreria;
     private javax.swing.JButton docente_btn_renovar;
     private javax.swing.JTextField docente_filtro_nombre;
     private javax.swing.JTable docente_tabla;

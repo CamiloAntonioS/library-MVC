@@ -17,8 +17,9 @@ public class Libro {
     private String demanda;
     private int cantidad;
     private int paginas;
+    private int biblioteca;
     
-    public Libro(int id, String nombre, int autor, int genero, String demanda, int cantidad, int paginas){
+    public Libro(int id, String nombre, int autor, int genero, String demanda, int cantidad, int paginas,int biblioteca){
         this.id = id;
         this.nombre = nombre;
         this.autor = autor;
@@ -26,6 +27,7 @@ public class Libro {
         this.demanda = demanda;
         this.cantidad = cantidad;
         this.paginas = paginas;
+        this.biblioteca = biblioteca;
     }
 
     /**
