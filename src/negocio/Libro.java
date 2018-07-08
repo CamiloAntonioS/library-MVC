@@ -5,11 +5,17 @@
  */
 package negocio;
 
+import datos.DatosLibro;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Renzo
  */
 public class Libro {
+
     private int id;
     private String nombre;
     private int autor;
@@ -18,8 +24,10 @@ public class Libro {
     private int cantidad;
     private int paginas;
     private int biblioteca;
-    
-    public Libro(int id, String nombre, int autor, int genero, String demanda, int cantidad, int paginas,int biblioteca){
+    private ResultSet todoLibros;
+    private ResultSet todoLibrosTabla;
+
+    public Libro(int id, String nombre, int autor, int genero, String demanda, int cantidad, int paginas, int biblioteca) {
         this.id = id;
         this.nombre = nombre;
         this.autor = autor;
@@ -28,6 +36,44 @@ public class Libro {
         this.cantidad = cantidad;
         this.paginas = paginas;
         this.biblioteca = biblioteca;
+    }
+    
+    /*
+    Este constructor solo se utiliza para traer todos los libros de la DB!
+    */
+    public Libro() {
+        this.traerLibros();
+        this.traerLibrosTabla();
+    }
+
+    private void traerLibros() {
+        DatosLibro datosLibro;
+        try {
+            datosLibro = new DatosLibro();
+            todoLibros = datosLibro.TraerTodo();
+        } catch (Exception ex) {
+            Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void traerLibrosTabla() {
+        DatosLibro datosLibro;
+        try {
+            datosLibro = new DatosLibro();
+            todoLibrosTabla = datosLibro.TraerTodoParaTabla();
+        } catch (Exception ex) {
+            Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ResultSet filtrarLibreria(String filtro_nombre,String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) throws Exception{
+        try {
+            DatosLibro datosLibro = new DatosLibro();
+            ResultSet rs= datosLibro.Buscar(filtro_nombre,filtro_autor,filtro_cat,filtro_idioma,filtro_demanda);
+            return rs;
+        } catch (Exception ex) {
+           throw ex;
+        }
     }
 
     /**
@@ -78,5 +124,26 @@ public class Libro {
     public int getPaginas() {
         return paginas;
     }
-    
+
+    /**
+     * @return the biblioteca
+     */
+    public int getBiblioteca() {
+        return biblioteca;
+    }
+
+    /**
+     * @return the todoLibros
+     */
+    public ResultSet getTodoLibros() {
+        return todoLibros;
+    }
+
+    /**
+     * @return the todoLibrosTabla
+     */
+    public ResultSet getTodoLibrosTabla() {
+        return todoLibrosTabla;
+    }
+
 }

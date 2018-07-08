@@ -5,6 +5,9 @@
  */
 package vista;
 
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Renzo
@@ -16,6 +19,7 @@ public class Docente extends javax.swing.JFrame {
      */
     public Docente() {
         initComponents();
+         this.setLocationRelativeTo(null);
     }
 
     /**
@@ -83,6 +87,11 @@ public class Docente extends javax.swing.JFrame {
 
         btn_libreria.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         btn_libreria.setText("Ver Libreria");
+        btn_libreria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_libreriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -130,6 +139,16 @@ public class Docente extends javax.swing.JFrame {
     private void docente_btn_renovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docente_btn_renovarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_docente_btn_renovarActionPerformed
+
+    private void btn_libreriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_libreriaActionPerformed
+        Libreria libreria;
+        try {
+            libreria = new Libreria();
+            libreria.setVisible(true);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_libreriaActionPerformed
 
     /**
      * @param args the command line arguments
