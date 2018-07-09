@@ -116,6 +116,57 @@ public class DatosUsuario {
 
     }
 
+    public ResultSet listarPrestamos() {
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "SELECT "
+                    + "prestamos.id,"
+                    + "libro.id,"
+                    + "libro.nombre,"
+                    + "categoria.nombre,"
+                    + "prestamos.fecha_prestamo,"
+                    + "prestamos.fecha_entrega,"
+                    + "(prestamos.fecha_prestamo-prestamos.fecha_entrega),"
+                    + "prestamos.renovado "
+                    + "FROM prestamos\n"
+                    + "INNER JOIN usuario ON usuario.id = prestamos.prestamo_usuario\n"
+                    + "INNER JOIN libro ON libro.id = prestamos.prestamo_libro\n"
+                    + "INNER JOIN categoria ON categoria.id = libro.categoria "
+                    + "WHERE usuario.id= " + this.id + "";
+
+            setResultado(getComando().executeQuery(sql));
+            return getResultado();
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
+    public ResultSet filtrarPrestamos(String nombre_texto) {
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "SELECT "
+                    + "prestamos.id,"
+                    + "libro.id,"
+                    + "libro.nombre,"
+                    + "categoria.nombre,"
+                    + "prestamos.fecha_prestamo,"
+                    + "prestamos.fecha_entrega,"
+                    + "(prestamos.fecha_prestamo-prestamos.fecha_entrega),"
+                    + "prestamos.renovado "
+                    + "FROM prestamos\n"
+                    + "INNER JOIN usuario ON usuario.id = prestamos.prestamo_usuario\n"
+                    + "INNER JOIN libro ON libro.id = prestamos.prestamo_libro\n"
+                    + "INNER JOIN categoria ON categoria.id = libro.categoria "
+                    + "WHERE usuario.id= " + this.id + " "
+                    + "AND libro.nombre LIKE '%"+nombre_texto+"%'";
+
+            setResultado(getComando().executeQuery(sql));
+            return getResultado();
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+
     /**
      * @return the rut
      */

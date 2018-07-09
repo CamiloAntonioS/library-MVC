@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import negocio.Libro;
 
@@ -224,7 +225,7 @@ public class Libreria extends javax.swing.JFrame {
             ResultSet libreriaFiltrada = libro.filtrarLibreria(filtro_nombre, filtro_autor, filtro_cat, filtro_idioma, filtro_demanda);
             llenarTabla(libreriaFiltrada);
         } catch (Exception ex) {
-            Logger.getLogger(Libreria.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_filtroActionPerformed
 

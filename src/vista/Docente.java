@@ -5,8 +5,13 @@
  */
 package vista;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import negocio.Usuario;
 
 /**
  *
@@ -14,12 +19,23 @@ import javax.swing.JOptionPane;
  */
 public class Docente extends javax.swing.JFrame {
 
+    Usuario docente;
+
     /**
      * Creates new form Alumno
      */
     public Docente() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+    }
+
+    public Docente(Usuario docente) {
+        initComponents();
+        this.docente = docente;
+        this.listarPrestamos();
+        this.setTitle("Prestamos vigentes [" + this.docente.getUsername() + "]");
+        this.label_titulo.setText("Prestamos Vigentes alumno " + this.docente.getNombre());
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -31,7 +47,7 @@ public class Docente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        label_titulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         docente_tabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -41,8 +57,8 @@ public class Docente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        jLabel1.setText("Prestamos vigentes");
+        label_titulo.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        label_titulo.setText("Prestamos vigentes");
 
         docente_tabla.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Libreria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
         docente_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
@@ -70,6 +86,7 @@ public class Docente extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(docente_tabla);
+        docente_tabla.getAccessibleContext().setAccessibleName("");
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jLabel3.setText("Filtro de Nombre");
@@ -103,7 +120,7 @@ public class Docente extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(label_titulo)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,7 +136,7 @@ public class Docente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(label_titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,6 +166,29 @@ public class Docente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_libreriaActionPerformed
+
+    private void listarPrestamos() {
+        try {
+            ResultSet rs = this.docente.listarPrestamos();
+            this.llenarTabla(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Alumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void llenarTabla(ResultSet rs) throws SQLException {
+        while (docente_tabla.getRowCount() > 0) {
+            ((DefaultTableModel) docente_tabla.getModel()).removeRow(0);
+        }
+        int columns = rs.getMetaData().getColumnCount();
+        while (rs.next()) {
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++) {
+                row[i - 1] = rs.getObject(i);
+            }
+            ((DefaultTableModel) docente_tabla.getModel()).insertRow(rs.getRow() - 1, row);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -191,8 +231,8 @@ public class Docente extends javax.swing.JFrame {
     private javax.swing.JButton docente_btn_renovar;
     private javax.swing.JTextField docente_filtro_nombre;
     private javax.swing.JTable docente_tabla;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_titulo;
     // End of variables declaration//GEN-END:variables
 }

@@ -82,6 +82,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="login_password">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="login_passwordActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

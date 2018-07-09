@@ -48,6 +48,12 @@ public class Login extends javax.swing.JFrame {
 
         login_usuario.setColumns(25);
 
+        login_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                login_passwordActionPerformed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jLabel1.setText("Usuario");
 
@@ -128,12 +134,12 @@ public class Login extends javax.swing.JFrame {
                     case 2:
                         break;
                     case 3:
-                        Docente docente = new Docente();
+                        Docente docente = new Docente(usuario);
                         docente.setVisible(true);
                         this.setVisible(false);
                         break;
                     case 4:
-                        Alumno alumno = new Alumno();
+                        Alumno alumno = new Alumno(usuario);
                         alumno.setVisible(true);
                         this.setVisible(false);
                         break;
@@ -143,6 +149,10 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_login_submitActionPerformed
+
+    private void login_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_passwordActionPerformed
+        login_submitActionPerformed(evt);
+    }//GEN-LAST:event_login_passwordActionPerformed
 
     /**
      * @param args the command line arguments

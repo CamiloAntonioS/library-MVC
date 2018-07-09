@@ -6,6 +6,7 @@
 package negocio;
 
 import datos.DatosUsuario;
+import java.sql.ResultSet;
 
 /**
  *
@@ -94,9 +95,9 @@ public class Usuario {
     }
 
     public boolean iniciarSesion(String username, String password) throws Exception {
-        dbUsuario = new DatosUsuario();
-        dbUsuario.setUsername(username);
-        dbUsuario.setPassword(password);
+        this.dbUsuario = new DatosUsuario();
+        this.dbUsuario.setUsername(username);
+        this.dbUsuario.setPassword(password);
         if (dbUsuario.Buscar()) {
             this.id = dbUsuario.getId();
             this.rut = dbUsuario.getRut();
@@ -108,5 +109,19 @@ public class Usuario {
         } else {
             return false;
         }
+    }
+
+    public ResultSet listarPrestamos() {
+        ResultSet rs;
+        this.dbUsuario.setId(this.id);
+        rs = this.dbUsuario.listarPrestamos();
+        return rs;
+    }
+    
+        public ResultSet filtrarPrestamos(String nombre_texto) {
+        ResultSet rs;
+        this.dbUsuario.setId(this.id);
+        rs = this.dbUsuario.filtrarPrestamos(nombre_texto);
+        return rs;
     }
 }

@@ -5,10 +5,13 @@
  */
 package vista;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import negocio.Usuario;
 
 /**
  *
@@ -16,12 +19,23 @@ import javax.swing.JOptionPane;
  */
 public class Alumno extends javax.swing.JFrame {
 
+    Usuario alumno;
+
     /**
      * Creates new form Alumno
      */
     public Alumno() {
         initComponents();
-         this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
+    }
+
+    public Alumno(Usuario alumno) {
+        initComponents();
+        this.alumno = alumno;
+        this.listarPrestamos();
+        this.setTitle("Prestamos vigentes [" + this.alumno.getUsername() + "]");
+        this.label_titulo.setText("Prestamos Vigentes alumno " + this.alumno.getNombre());
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -33,7 +47,7 @@ public class Alumno extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        label_titulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         alumno_tabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -42,25 +56,25 @@ public class Alumno extends javax.swing.JFrame {
         btn_libreria = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Prestamos Vigentes");
 
-        jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        jLabel1.setText("Prestamos vigentes");
+        label_titulo.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        label_titulo.setText("Prestamos vigentes");
 
-        alumno_tabla.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Libreria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
         alumno_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         alumno_tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Prestamo", "ID Texto", "Nombre Texto", "Categoria", "Dia Solicitado", "Dia Entrega", "Días Atraso"
+                "ID Prestamo", "ID Texto", "Nombre Texto", "Categoria", "Dia Solicitado", "Dia Entrega", "Días Atraso", "Veces Renovado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -72,12 +86,19 @@ public class Alumno extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(alumno_tabla);
+        alumno_tabla.getAccessibleContext().setAccessibleName("");
+        alumno_tabla.getAccessibleContext().setAccessibleDescription("");
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jLabel3.setText("Filtro de Nombre");
 
         alumno_filtro_nombre.setColumns(10);
         alumno_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        alumno_filtro_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                alumno_filtro_nombreKeyReleased(evt);
+            }
+        });
 
         alumno_btn_renovar.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         alumno_btn_renovar.setText("Renovar préstamo seleccionado");
@@ -102,10 +123,10 @@ public class Alumno extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(label_titulo)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -121,7 +142,7 @@ public class Alumno extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(label_titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -139,7 +160,24 @@ public class Alumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void alumno_btn_renovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumno_btn_renovarActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = this.alumno_tabla.getSelectedRow();
+        if (selectedRow >= 0) {
+            Long auxRenovaciones = (Long) this.alumno_tabla.getValueAt(selectedRow, 7);
+            int renovaciones = auxRenovaciones.intValue();
+            if (renovaciones >= 2) {
+                JOptionPane.showMessageDialog(null, "Ya cuenta con todas las renovaciones!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+            Long auxdiasAtraso = (Long) this.alumno_tabla.getValueAt(selectedRow, 6);
+            int diasAtraso = auxdiasAtraso.intValue();
+            if (diasAtraso < 0) {
+                int id_prestamo = (int) this.alumno_tabla.getValueAt(selectedRow, 0);
+                int id_libro = (int) this.alumno_tabla.getValueAt(selectedRow, 1);
+            } else if (diasAtraso > 0) {
+                JOptionPane.showMessageDialog(null, "No puede renovar por atraso!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay ningun registro seleccionado!", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_alumno_btn_renovarActionPerformed
 
     private void btn_libreriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_libreriaActionPerformed
@@ -151,6 +189,39 @@ public class Alumno extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_libreriaActionPerformed
+
+    private void alumno_filtro_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_alumno_filtro_nombreKeyReleased
+        try {
+            String texto_nombre = alumno_filtro_nombre.getText();
+            ResultSet rs = this.alumno.filtrarPrestamos(texto_nombre);
+            llenarTabla(rs);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_alumno_filtro_nombreKeyReleased
+
+    private void listarPrestamos() {
+        try {
+            ResultSet rs = this.alumno.listarPrestamos();
+            llenarTabla(rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(Alumno.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void llenarTabla(ResultSet rs) throws SQLException {
+        while (alumno_tabla.getRowCount() > 0) {
+            ((DefaultTableModel) alumno_tabla.getModel()).removeRow(0);
+        }
+        int columns = rs.getMetaData().getColumnCount();
+        while (rs.next()) {
+            Object[] row = new Object[columns];
+            for (int i = 1; i <= columns; i++) {
+                row[i - 1] = rs.getObject(i);
+            }
+            ((DefaultTableModel) alumno_tabla.getModel()).insertRow(rs.getRow() - 1, row);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -192,8 +263,8 @@ public class Alumno extends javax.swing.JFrame {
     private javax.swing.JTextField alumno_filtro_nombre;
     private javax.swing.JTable alumno_tabla;
     private javax.swing.JButton btn_libreria;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_titulo;
     // End of variables declaration//GEN-END:variables
 }
