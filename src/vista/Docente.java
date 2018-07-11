@@ -29,12 +29,16 @@ public class Docente extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param docente
+     */
     public Docente(Usuario docente) {
         initComponents();
         this.docente = docente;
         this.listarPrestamos();
         this.setTitle("Prestamos vigentes [" + this.docente.getUsername() + "]");
-        this.label_titulo.setText("Prestamos Vigentes alumno " + this.docente.getNombre());
+        this.label_titulo.setText("Prestamos Vigentes docente  " + this.docente.getNombre());
         this.setLocationRelativeTo(null);
     }
 
@@ -154,7 +158,36 @@ public class Docente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void docente_btn_renovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_docente_btn_renovarActionPerformed
-        // TODO add your handling code here:
+        try {
+            int selectedRow = this.docente_tabla.getSelectedRow();
+            if (selectedRow >= 0) {
+                // int auxRenovaciones =  this.docente_tabla.getValueAt(selectedRow, 7);
+                int renovaciones = (int) this.docente_tabla.getValueAt(selectedRow, 7);
+                if (renovaciones >= 2) {
+                    JOptionPane.showMessageDialog(null, "Ya cuenta con todas las renovaciones!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+                Long auxdiasAtraso = (Long) this.docente_tabla.getValueAt(selectedRow, 6);
+                int diasAtraso = auxdiasAtraso.intValue();
+                if (diasAtraso <= 0) {
+                    int id_prestamo = (int) this.docente_tabla.getValueAt(selectedRow, 0);
+                    int resultado = this.docente.solicitarRenovacion(id_prestamo);
+                    switch (resultado) {
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Solicitud ingresada correctamente.\nDebe esperar confirmación del funcionario.", "Éxito!", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Ya ha realizado la solicitud de la extensión!\nFavor espere confirmación.", "Favor espere confirmación", JOptionPane.WARNING_MESSAGE);
+                            break;
+                    }
+                } else if (diasAtraso > 0) {
+                    JOptionPane.showMessageDialog(null, "No puede renovar por atraso!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay ningun registro seleccionado!", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_docente_btn_renovarActionPerformed
 
     private void btn_libreriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_libreriaActionPerformed

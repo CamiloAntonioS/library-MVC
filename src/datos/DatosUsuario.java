@@ -31,6 +31,10 @@ public class DatosUsuario {
     private String password;
     private int carrera;
 
+    /**
+     *
+     * @throws Exception
+     */
     public DatosUsuario() throws Exception {
         try {
             miConexion = new Conexion();
@@ -40,6 +44,10 @@ public class DatosUsuario {
         }
     }
 
+    /**
+     *
+     * @return @throws Exception
+     */
     public int Guardar() throws Exception {
         int res = 0;
         try {
@@ -52,6 +60,10 @@ public class DatosUsuario {
         return res;
     }
 
+    /**
+     *
+     * @return
+     */
     public int Modificar() {
         int res = 0;
         try {
@@ -66,6 +78,10 @@ public class DatosUsuario {
         return res;
     }
 
+    /**
+     *
+     * @return
+     */
     public int Eliminar() {
         int res = 0;
         try {
@@ -79,6 +95,10 @@ public class DatosUsuario {
         return res;
     }
 
+    /**
+     *
+     * @return @throws SQLException
+     */
     public boolean Buscar() throws SQLException {
         boolean res = false;
 
@@ -102,6 +122,10 @@ public class DatosUsuario {
         return res;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResultSet TraerTodo() {
 
         try {
@@ -116,7 +140,12 @@ public class DatosUsuario {
 
     }
 
-    public ResultSet listarPrestamos() {
+    /**
+     *
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public ResultSet listarPrestamos() throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
             String sql = "SELECT "
@@ -132,16 +161,22 @@ public class DatosUsuario {
                     + "INNER JOIN usuario ON usuario.id = prestamos.prestamo_usuario\n"
                     + "INNER JOIN libro ON libro.id = prestamos.prestamo_libro\n"
                     + "INNER JOIN categoria ON categoria.id = libro.categoria "
-                    + "WHERE usuario.id= " + this.id + "";
+                    + "WHERE usuario.id= " + this.id + " AND prestamos.entregado=0";
 
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {
-            return null;
+            throw ex;
         }
     }
 
-    public ResultSet filtrarPrestamos(String nombre_texto) {
+    /**
+     *
+     * @param nombre_texto
+     * @return
+     * @throws java.sql.SQLException
+     */
+    public ResultSet filtrarPrestamos(String nombre_texto) throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
             String sql = "SELECT "
@@ -158,13 +193,53 @@ public class DatosUsuario {
                     + "INNER JOIN libro ON libro.id = prestamos.prestamo_libro\n"
                     + "INNER JOIN categoria ON categoria.id = libro.categoria "
                     + "WHERE usuario.id= " + this.id + " "
-                    + "AND libro.nombre LIKE '%"+nombre_texto+"%'";
+                    + "AND libro.nombre LIKE '%" + nombre_texto + "%' AND prestamos.entregado=0";
 
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {
-            return null;
+            throw ex;
         }
+    }
+
+    /**
+     *
+     * @param id_prestamo
+     * @return 
+     * @throws java.sql.SQLException
+     */
+    public int solicitarRenovacion(int id_prestamo) throws SQLException {
+        int res = 0;
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "UPDATE  prestamos SET  pendiente_aceptacion=1  WHERE id=" + id_prestamo;
+            res = getComando().executeUpdate(sql);
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     *
+     * @param id_prestamo
+     * @return
+     * @throws SQLException
+     */
+    public int checkearSolicitud(int id_prestamo) throws SQLException {
+       int res = -1;
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "SELECT pendiente_aceptacion FROM prestamos where id="+id_prestamo;
+
+            setResultado(getComando().executeQuery(sql));
+            while (getResultado().next()) {
+                res = getResultado().getInt("pendiente_aceptacion");
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
     }
 
     /**

@@ -29,6 +29,10 @@ public class Alumno extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param alumno
+     */
     public Alumno(Usuario alumno) {
         initComponents();
         this.alumno = alumno;
@@ -160,23 +164,35 @@ public class Alumno extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void alumno_btn_renovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alumno_btn_renovarActionPerformed
-        int selectedRow = this.alumno_tabla.getSelectedRow();
-        if (selectedRow >= 0) {
-            Long auxRenovaciones = (Long) this.alumno_tabla.getValueAt(selectedRow, 7);
-            int renovaciones = auxRenovaciones.intValue();
-            if (renovaciones >= 2) {
-                JOptionPane.showMessageDialog(null, "Ya cuenta con todas las renovaciones!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+        try {
+            int selectedRow = this.alumno_tabla.getSelectedRow();
+            if (selectedRow >= 0) {
+               // int auxRenovaciones =  this.alumno_tabla.getValueAt(selectedRow, 7);
+                int renovaciones =  (int)this.alumno_tabla.getValueAt(selectedRow, 7);
+                if (renovaciones >= 2) {
+                    JOptionPane.showMessageDialog(null, "Ya cuenta con todas las renovaciones!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+                Long auxdiasAtraso = (Long) this.alumno_tabla.getValueAt(selectedRow, 6);
+                int diasAtraso = auxdiasAtraso.intValue();
+                if (diasAtraso <= 0) {
+                    int id_prestamo = (int) this.alumno_tabla.getValueAt(selectedRow, 0);
+                    int resultado = this.alumno.solicitarRenovacion(id_prestamo);
+                    switch (resultado) {
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Solicitud ingresada correctamente.\nDebe esperar confirmación del funcionario.", "Éxito!", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Ya ha realizado la solicitud de la extensión!\nFavor espere confirmación.", "Favor espere confirmación", JOptionPane.WARNING_MESSAGE);
+                            break;
+                    }
+                } else if (diasAtraso > 0) {
+                    JOptionPane.showMessageDialog(null, "No puede renovar por atraso!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay ningun registro seleccionado!", "Error!", JOptionPane.ERROR_MESSAGE);
             }
-            Long auxdiasAtraso = (Long) this.alumno_tabla.getValueAt(selectedRow, 6);
-            int diasAtraso = auxdiasAtraso.intValue();
-            if (diasAtraso < 0) {
-                int id_prestamo = (int) this.alumno_tabla.getValueAt(selectedRow, 0);
-                int id_libro = (int) this.alumno_tabla.getValueAt(selectedRow, 1);
-            } else if (diasAtraso > 0) {
-                JOptionPane.showMessageDialog(null, "No puede renovar por atraso!\nFavor acerquese a su libreria y regularice su situación.", "Error!", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay ningun registro seleccionado!", "Error!", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_alumno_btn_renovarActionPerformed
 
@@ -205,7 +221,7 @@ public class Alumno extends javax.swing.JFrame {
             ResultSet rs = this.alumno.listarPrestamos();
             llenarTabla(rs);
         } catch (SQLException ex) {
-            Logger.getLogger(Alumno.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
 
