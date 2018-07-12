@@ -16,11 +16,11 @@ import java.sql.SQLException;
  */
 public class DatosUsuario {
 
-    private Connection conexion;
+    protected Connection conexion;
     private Statement comando;
     private ResultSet resultado;
 
-    private Conexion miConexion;
+    protected Conexion miConexion;
 
     private int id;
     private String rut;

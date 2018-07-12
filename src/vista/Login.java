@@ -8,6 +8,7 @@ package vista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.Funcionario;
 import negocio.Usuario;
 
 /**
@@ -132,6 +133,10 @@ public class Login extends javax.swing.JFrame {
                     case 1:
                         break;
                     case 2:
+                        Funcionario funcionario = new Funcionario(usuario.getId(),usuario.getRut(),usuario.getNombre(),usuario.getPerfil(),usuario.getSede(),usuario.getCarrera());
+                        Funcionario_Main vista_funcionario = new Funcionario_Main(funcionario);
+                        vista_funcionario.setVisible(true);
+                        this.setVisible(false);
                         break;
                     case 3:
                         Docente docente = new Docente(usuario);

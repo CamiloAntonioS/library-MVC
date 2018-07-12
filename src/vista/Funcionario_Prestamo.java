@@ -16,6 +16,7 @@ public class Funcionario_Prestamo extends javax.swing.JFrame {
      */
     public Funcionario_Prestamo() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

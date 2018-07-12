@@ -28,42 +28,55 @@ public class Funcionario_Renovacion_Devolucion extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        fprestamo_solicitante = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        frenodev_tabla = new javax.swing.JTable();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        frenodev_filtro_nombre = new javax.swing.JTextField();
-        frenodev_btn_renovar = new javax.swing.JButton();
-        frenodev_btn_registrar = new javax.swing.JButton();
-        frenodev_label_advertencia = new javax.swing.JLabel();
+        fprestamo_filtro_nombre = new javax.swing.JTextField();
+        fprestamo_label_advertencia = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        alumno_tabla = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        alumno_tabla1 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        fprestamo_filtro_nombre1 = new javax.swing.JTextField();
+        fprestamo_label_advertencia1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        alumno_tabla2 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        fprestamo_filtro_nombre2 = new javax.swing.JTextField();
+        fprestamo_label_advertencia2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Renueva o registra devolución de un texto prestado");
 
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel2.setText("Prestado a:");
+        jLabel3.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jLabel3.setText("Filtro de Nombre");
 
-        fprestamo_solicitante.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        fprestamo_solicitante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuario con texto" }));
+        fprestamo_filtro_nombre.setColumns(10);
+        fprestamo_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
 
-        frenodev_tabla.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Libreria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
-        frenodev_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        frenodev_tabla.setModel(new javax.swing.table.DefaultTableModel(
+        fprestamo_label_advertencia.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        fprestamo_label_advertencia.setText("Advertencia !:");
+
+        alumno_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        alumno_tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre", "Dia Solicitado", "Dia Entrega", "Renovación Activa", "Días Atraso"
+                "ID Prestamo", "ID Texto", "Nombre Texto", "Categoria", "Dia Solicitado", "Dia Entrega", "Días Atraso", "Veces Renovado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -74,27 +87,167 @@ public class Funcionario_Renovacion_Devolucion extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(frenodev_tabla);
+        jScrollPane1.setViewportView(alumno_tabla);
 
-        jLabel3.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel3.setText("Filtro de Nombre");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fprestamo_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fprestamo_label_advertencia)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fprestamo_filtro_nombre)
+                    .addComponent(jLabel3)
+                    .addComponent(fprestamo_label_advertencia))
+                .addGap(38, 38, 38))
+        );
 
-        frenodev_filtro_nombre.setColumns(10);
-        frenodev_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        frenodev_filtro_nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frenodev_filtro_nombreActionPerformed(evt);
+        jTabbedPane1.addTab("Devoluciones", jPanel1);
+
+        jLabel2.setText("Pendientes de Aprobación");
+
+        alumno_tabla1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        alumno_tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Prestamo", "ID Texto", "Nombre Texto", "Categoria", "Dia Solicitado", "Dia Entrega", "Días Atraso", "Veces Renovado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        jScrollPane2.setViewportView(alumno_tabla1);
 
-        frenodev_btn_renovar.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        frenodev_btn_renovar.setText("Renovar Préstamo");
+        jLabel4.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jLabel4.setText("Filtro de Nombre");
 
-        frenodev_btn_registrar.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        frenodev_btn_registrar.setText("Registrar Devolucion");
+        fprestamo_filtro_nombre1.setColumns(10);
+        fprestamo_filtro_nombre1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
 
-        frenodev_label_advertencia.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        frenodev_label_advertencia.setText("Advertencia ! :");
+        fprestamo_label_advertencia1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        fprestamo_label_advertencia1.setText("Advertencia !:");
+
+        alumno_tabla2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        alumno_tabla2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Prestamo", "ID Texto", "Nombre Texto", "Categoria", "Dia Solicitado", "Dia Entrega", "Días Atraso", "Veces Renovado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(alumno_tabla2);
+
+        jLabel5.setText("Pendientes de Aprobación");
+
+        jLabel6.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jLabel6.setText("Filtro de Nombre");
+
+        fprestamo_filtro_nombre2.setColumns(10);
+        fprestamo_filtro_nombre2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+
+        fprestamo_label_advertencia2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        fprestamo_label_advertencia2.setText("Advertencia !:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fprestamo_filtro_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fprestamo_label_advertencia1))
+                            .addComponent(jLabel5)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fprestamo_filtro_nombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fprestamo_label_advertencia2)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fprestamo_filtro_nombre2)
+                    .addComponent(jLabel6)
+                    .addComponent(fprestamo_label_advertencia2))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fprestamo_filtro_nombre1)
+                    .addComponent(jLabel4)
+                    .addComponent(fprestamo_label_advertencia1))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Renovaciones", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,64 +255,25 @@ public class Funcionario_Renovacion_Devolucion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(frenodev_label_advertencia)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(fprestamo_solicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(frenodev_btn_renovar)
-                            .addGap(18, 18, 18)
-                            .addComponent(frenodev_btn_registrar))))
-                .addContainerGap(307, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(13, 13, 13)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(frenodev_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap()))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(fprestamo_solicitante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
-                .addComponent(frenodev_label_advertencia)
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(frenodev_btn_renovar)
-                    .addComponent(frenodev_btn_registrar))
-                .addGap(30, 30, 30))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(73, 73, 73)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(frenodev_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addGap(74, 74, 74)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void frenodev_filtro_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frenodev_filtro_nombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_frenodev_filtro_nombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,15 +311,26 @@ public class Funcionario_Renovacion_Devolucion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> fprestamo_solicitante;
-    private javax.swing.JButton frenodev_btn_registrar;
-    private javax.swing.JButton frenodev_btn_renovar;
-    private javax.swing.JTextField frenodev_filtro_nombre;
-    private javax.swing.JLabel frenodev_label_advertencia;
-    private javax.swing.JTable frenodev_tabla;
+    private javax.swing.JTable alumno_tabla;
+    private javax.swing.JTable alumno_tabla1;
+    private javax.swing.JTable alumno_tabla2;
+    private javax.swing.JTextField fprestamo_filtro_nombre;
+    private javax.swing.JTextField fprestamo_filtro_nombre1;
+    private javax.swing.JTextField fprestamo_filtro_nombre2;
+    private javax.swing.JLabel fprestamo_label_advertencia;
+    private javax.swing.JLabel fprestamo_label_advertencia1;
+    private javax.swing.JLabel fprestamo_label_advertencia2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
