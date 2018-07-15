@@ -15,6 +15,10 @@ public class Conexion {
     private Connection conexion;
     private DriverManager driver;   
     
+    /**
+     *
+     * @throws Exception
+     */
     public Conexion() throws Exception{
         conexion = null;
         try{

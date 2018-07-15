@@ -16,6 +16,14 @@ public class Autor {
     private String idioma;
     private String pais;
     
+    /**
+     *
+     * @param id
+     * @param nombre
+     * @param categoria
+     * @param idioma
+     * @param pais
+     */
     public Autor(int id, String nombre, int categoria, String idioma, String pais){
         this.id = id;
         this.nombre = nombre;

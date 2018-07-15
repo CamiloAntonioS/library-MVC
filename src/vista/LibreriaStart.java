@@ -13,11 +13,18 @@ import javafx.application.Application;
  */
 public abstract class LibreriaStart extends Application {
     
+    /**
+     *
+     */
     public LibreriaStart() {
         Login login = new Login();
         login.setVisible(true);
     }
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
         Login login = new Login();
         login.setVisible(true);

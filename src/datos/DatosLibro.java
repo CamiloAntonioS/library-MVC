@@ -31,6 +31,10 @@ public class DatosLibro {
     private String password;
     private int carrera;
 
+    /**
+     *
+     * @throws Exception
+     */
     public DatosLibro() throws Exception {
         try {
             miConexion = new Conexion();
@@ -40,6 +44,11 @@ public class DatosLibro {
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public int Guardar() throws Exception {
         int res = 0;
         try {
@@ -52,6 +61,10 @@ public class DatosLibro {
         return res;
     }
 
+    /**
+     *
+     * @return
+     */
     public int Modificar() {
         int res = 0;
         try {
@@ -66,6 +79,10 @@ public class DatosLibro {
         return res;
     }
 
+    /**
+     *
+     * @return
+     */
     public int Eliminar() {
         int res = 0;
         try {
@@ -79,6 +96,15 @@ public class DatosLibro {
         return res;
     }
 
+    /**
+     *
+     * @param filtro_nombre
+     * @param filtro_autor
+     * @param filtro_cat
+     * @param filtro_idioma
+     * @param filtro_demanda
+     * @return
+     */
     public ResultSet Buscar(String filtro_nombre, String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) {
         try {
             this.setComando(this.getConexion().createStatement());
@@ -110,6 +136,10 @@ public class DatosLibro {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ResultSet TraerTodo() {
 
         try {
@@ -124,6 +154,10 @@ public class DatosLibro {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ResultSet TraerTodoParaTabla() {
 
         try {

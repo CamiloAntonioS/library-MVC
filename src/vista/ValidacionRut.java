@@ -5,12 +5,16 @@ package vista;
  * @author Renzo
  */
 public class ValidacionRut {
-//String RutJunto = "";
 
     private static int verificadorIni = 0;
     private static String VerifiStringIni = "";
     private static int RutC = 0;
 
+    /**
+     *
+     * @param RutJunto
+     * @return
+     */
     public static boolean IngresoRut(String RutJunto){
         int RutUsuario[] = new int[10];
         String VerificadorFinal = "";
@@ -34,9 +38,6 @@ public class ValidacionRut {
     private static void SacarVerificador(String RutS) {
         String[] Spl1 = RutS.split("-");
         RutC = Integer.parseInt(Spl1[0]);
-        //verificadorIni = (((((((RutC%10000000)%1000000)%100000)%10000)%1000)%100)%10);
-        //RutC -= verificadorIni;
-        //RutC /= 10;
         VerifiStringIni = Spl1[1];
 
     }

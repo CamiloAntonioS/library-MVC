@@ -27,6 +27,17 @@ public class Libro {
     private ResultSet todoLibros;
     private ResultSet todoLibrosTabla;
 
+    /**
+     *
+     * @param id
+     * @param nombre
+     * @param autor
+     * @param genero
+     * @param demanda
+     * @param cantidad
+     * @param paginas
+     * @param biblioteca
+     */
     public Libro(int id, String nombre, int autor, int genero, String demanda, int cantidad, int paginas, int biblioteca) {
         this.id = id;
         this.nombre = nombre;
@@ -41,6 +52,11 @@ public class Libro {
     /*
     Este constructor solo se utiliza para traer todos los libros de la DB!
     */
+
+    /**
+     *
+     */
+
     public Libro() {
         this.traerLibros();
         this.traerLibrosTabla();
@@ -66,6 +82,16 @@ public class Libro {
         }
     }
     
+    /**
+     *
+     * @param filtro_nombre
+     * @param filtro_autor
+     * @param filtro_cat
+     * @param filtro_idioma
+     * @param filtro_demanda
+     * @return
+     * @throws Exception
+     */
     public ResultSet filtrarLibreria(String filtro_nombre,String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) throws Exception{
         try {
             DatosLibro datosLibro = new DatosLibro();

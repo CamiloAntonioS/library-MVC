@@ -23,6 +23,10 @@ public class Funcionario_Main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param funcionario
+     */
     public Funcionario_Main(Funcionario funcionario) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -42,6 +46,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         fun_btn_realizarprestamo = new javax.swing.JButton();
         fun_btn_vigentes = new javax.swing.JButton();
+        fun_btn_renopendientes = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +64,13 @@ public class Funcionario_Main extends javax.swing.JFrame {
             }
         });
 
+        fun_btn_renopendientes.setText("Renovaciones Pendientes");
+        fun_btn_renopendientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_renopendientesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -67,7 +79,8 @@ public class Funcionario_Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fun_btn_realizarprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(200, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -77,7 +90,9 @@ public class Funcionario_Main extends javax.swing.JFrame {
                 .addComponent(fun_btn_realizarprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -110,6 +125,11 @@ public class Funcionario_Main extends javax.swing.JFrame {
         Funcionario_RevisarPrestamos funPrestamos = new Funcionario_RevisarPrestamos(this.funcionario);
         funPrestamos.setVisible(true);
     }//GEN-LAST:event_fun_btn_vigentesActionPerformed
+
+    private void fun_btn_renopendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_renopendientesActionPerformed
+        Funcionario_RenovacionesPendientes funPrestamos = new Funcionario_RenovacionesPendientes(this.funcionario);
+        funPrestamos.setVisible(true);
+    }//GEN-LAST:event_fun_btn_renopendientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,6 +169,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton fun_btn_realizarprestamo;
+    private javax.swing.JButton fun_btn_renopendientes;
     private javax.swing.JButton fun_btn_vigentes;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label_titulo;

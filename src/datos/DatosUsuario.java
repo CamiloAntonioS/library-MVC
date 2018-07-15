@@ -16,10 +16,16 @@ import java.sql.SQLException;
  */
 public class DatosUsuario {
 
+    /**
+     *
+     */
     protected Connection conexion;
     private Statement comando;
     private ResultSet resultado;
 
+    /**
+     *
+     */
     protected Conexion miConexion;
 
     private int id;
@@ -142,8 +148,7 @@ public class DatosUsuario {
 
     /**
      *
-     * @return
-     * @throws java.sql.SQLException
+     * @return @throws java.sql.SQLException
      */
     public ResultSet listarPrestamos() throws SQLException {
         try {
@@ -155,7 +160,7 @@ public class DatosUsuario {
                     + "categoria.nombre,"
                     + "prestamos.fecha_prestamo,"
                     + "prestamos.fecha_entrega,"
-                    + "(prestamos.fecha_prestamo-prestamos.fecha_entrega),"
+                    + "CURRENT_DATE-fecha_entrega AS atraso,"
                     + "prestamos.renovado "
                     + "FROM prestamos\n"
                     + "INNER JOIN usuario ON usuario.id = prestamos.prestamo_usuario\n"
@@ -205,7 +210,7 @@ public class DatosUsuario {
     /**
      *
      * @param id_prestamo
-     * @return 
+     * @return
      * @throws java.sql.SQLException
      */
     public int solicitarRenovacion(int id_prestamo) throws SQLException {
@@ -219,7 +224,7 @@ public class DatosUsuario {
         }
         return res;
     }
-    
+
     /**
      *
      * @param id_prestamo
@@ -227,10 +232,10 @@ public class DatosUsuario {
      * @throws SQLException
      */
     public int checkearSolicitud(int id_prestamo) throws SQLException {
-       int res = -1;
+        int res = -1;
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "SELECT pendiente_aceptacion FROM prestamos where id="+id_prestamo;
+            String sql = "SELECT pendiente_aceptacion FROM prestamos where id=" + id_prestamo;
 
             setResultado(getComando().executeQuery(sql));
             while (getResultado().next()) {

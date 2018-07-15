@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import negocio.Biblioteca;
 import negocio.Funcionario;
 
 /**
@@ -19,6 +21,7 @@ import negocio.Funcionario;
 public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
 
     private Funcionario funcionario;
+    private Biblioteca biblioteca;
 
     /**
      * Creates new form Funcionario_RevisarPrestamos
@@ -26,13 +29,21 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
     public Funcionario_RevisarPrestamos() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.biblioteca = new Biblioteca();
+        this.funcionario.setBiblioteca(biblioteca);
     }
 
+    /**
+     *
+     * @param funcionario
+     */
     public Funcionario_RevisarPrestamos(Funcionario funcionario) {
         try {
             initComponents();
             this.setLocationRelativeTo(null);
             this.funcionario = funcionario;
+            this.biblioteca = new Biblioteca();
+            this.funcionario.setBiblioteca(biblioteca);
             this.listarPrestamos();
         } catch (SQLException ex) {
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,26 +87,16 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
         frenodev_tabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         frenodev_filtro_nombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        frenodev_filtro_nombre1 = new javax.swing.JTextField();
+        frenodev_filtro_rut = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         fun_btn_realreno = new javax.swing.JButton();
-        fun_btn_acepreno = new javax.swing.JButton();
-        fun_btn_rechareno = new javax.swing.JButton();
         fun_btn_devolucion = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Revision de textos en préstamo");
 
-        frenodev_tabla.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Libreria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
         frenodev_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         frenodev_tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -128,48 +129,38 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
 
         frenodev_filtro_nombre.setColumns(10);
         frenodev_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                frenodev_filtro_nombreKeyReleased(evt);
+            }
+        });
 
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel2.setText("Indicaciones importantes:");
-
-        jLabel4.setBackground(new java.awt.Color(255, 153, 0));
-        jLabel4.setText("     ");
-        jLabel4.setOpaque(true);
-
-        jLabel5.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel5.setText("= Renovación solicitada");
-
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("     ");
-        jLabel6.setOpaque(true);
-
-        jLabel7.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel7.setText("= Prestamo en curso");
-
-        jLabel8.setBackground(new java.awt.Color(255, 0, 0));
-        jLabel8.setText("     ");
-        jLabel8.setOpaque(true);
-
-        jLabel9.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        jLabel9.setText("= Devolución fuera de plazo");
-
-        frenodev_filtro_nombre1.setColumns(10);
-        frenodev_filtro_nombre1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_rut.setColumns(10);
+        frenodev_filtro_rut.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_rut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                frenodev_filtro_rutKeyReleased(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jLabel10.setText("Filtro por Rut Usuario");
 
         fun_btn_realreno.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_realreno.setText("Realizar Renovación");
-
-        fun_btn_acepreno.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        fun_btn_acepreno.setText("Aceptar Renovación");
-
-        fun_btn_rechareno.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        fun_btn_rechareno.setText("Rechazar Renovación");
+        fun_btn_realreno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_realrenoActionPerformed(evt);
+            }
+        });
 
         fun_btn_devolucion.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_devolucion.setText("Aceptar Devolución");
+        fun_btn_devolucion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_devolucionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,36 +169,6 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(fun_btn_realreno)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fun_btn_acepreno)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fun_btn_rechareno, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(fun_btn_devolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel5))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel7))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel9)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
@@ -218,8 +179,16 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(frenodev_filtro_nombre1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                        .addGap(187, 187, 187))))
+                        .addComponent(frenodev_filtro_rut, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                        .addGap(187, 187, 187))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fun_btn_realreno)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fun_btn_devolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,38 +196,98 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(frenodev_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(frenodev_filtro_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(frenodev_filtro_rut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fun_btn_realreno)
-                    .addComponent(fun_btn_acepreno)
-                    .addComponent(fun_btn_rechareno)
                     .addComponent(fun_btn_devolucion))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void frenodev_filtro_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_frenodev_filtro_nombreKeyReleased
+        try {
+            String filtro_texto = this.frenodev_filtro_nombre.getText();
+            String filtro_rut = this.frenodev_filtro_rut.getText();
+            ResultSet rs = this.funcionario.filtrarPrestamosBiblioteca(filtro_texto, filtro_rut);
+            this.llenarTabla(rs);
+        } catch (Exception ex) {
+            Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_frenodev_filtro_nombreKeyReleased
+
+    private void frenodev_filtro_rutKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_frenodev_filtro_rutKeyReleased
+        try {
+            String filtro_texto = this.frenodev_filtro_nombre.getText();
+            String filtro_rut = this.frenodev_filtro_rut.getText();
+            ResultSet rs = this.funcionario.filtrarPrestamosBiblioteca(filtro_texto, filtro_rut);
+            this.llenarTabla(rs);
+        } catch (Exception ex) {
+            Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_frenodev_filtro_rutKeyReleased
+
+    private void fun_btn_realrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_realrenoActionPerformed
+
+    }//GEN-LAST:event_fun_btn_realrenoActionPerformed
+
+    private void fun_btn_devolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_devolucionActionPerformed
+        try {
+            int selectedRow = this.frenodev_tabla.getSelectedRow();
+            if (selectedRow >= 0) {
+                int idPrestamo = (Integer) this.frenodev_tabla.getValueAt(selectedRow, 0);
+                int diasAtraso = this.biblioteca.validarDevolucion(idPrestamo);
+                if (diasAtraso == -1) {
+                    String nombreTexto = this.biblioteca.nombreTextoPrestamo(idPrestamo);
+                    int input = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea aceptar la devolución del texto:\n" + nombreTexto, "Confirmar Recepción", JOptionPane.YES_NO_OPTION);
+                    switch (input) {
+                        case 0:
+                            this.biblioteca.registrarDevolucion(idPrestamo);
+                            JOptionPane.showMessageDialog(null, "Texto devuelto exitosamente.", "Operacion Realizada", JOptionPane.INFORMATION_MESSAGE);
+                            this.listarPrestamos();
+                            break;
+                        case 1:
+                            JOptionPane.showConfirmDialog(null, "Devolución no realizada.", "Operación Cancelada", JOptionPane.INFORMATION_MESSAGE);
+                            break;
+                    }
+                } else if (diasAtraso > 0) {
+                    Object[] respuestas = {"Recibir Pago", "Cancelar Recepción"};
+                    int multaCancelar = Biblioteca.MULTA_POR_DIA * diasAtraso;
+                    String mensaje = "Para devolver este texto debe pagar una multa de: $" + multaCancelar
+                            + "\nDebe informar al usuario antes de continuar.";
+                    int input = JOptionPane.showOptionDialog(
+                            null,
+                            mensaje,
+                            "Confirmar Recepción",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            respuestas,
+                            respuestas[1]);
+                    switch (input) {
+                        case 0:
+                            this.biblioteca.registrarDevolucionMulta(idPrestamo, multaCancelar);
+                            JOptionPane.showMessageDialog(null, "Texto devuelto exitosamente.\nLa multa fue cancelada por el usuario.", "Operacion Realizada", JOptionPane.INFORMATION_MESSAGE);
+                            this.listarPrestamos();
+                            break;
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Informar al usuario que la multa seguira creciendo en un valor de $500 por día de atraso..", "Operacion Cancelada", JOptionPane.WARNING_MESSAGE);
+                            break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_fun_btn_devolucionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,22 +326,13 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField frenodev_filtro_nombre;
-    private javax.swing.JTextField frenodev_filtro_nombre1;
+    private javax.swing.JTextField frenodev_filtro_rut;
     private javax.swing.JTable frenodev_tabla;
-    private javax.swing.JButton fun_btn_acepreno;
     private javax.swing.JButton fun_btn_devolucion;
     private javax.swing.JButton fun_btn_realreno;
-    private javax.swing.JButton fun_btn_rechareno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

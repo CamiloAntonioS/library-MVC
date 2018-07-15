@@ -14,6 +14,12 @@ public class Categoria {
     private String nombre;
     private String subcategoria;
 
+    /**
+     *
+     * @param id
+     * @param nombre
+     * @param subcategoria
+     */
     public Categoria(int id, String nombre, String subcategoria){
         this.id = id;
         this.nombre = nombre;

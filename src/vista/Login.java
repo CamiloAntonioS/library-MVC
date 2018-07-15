@@ -17,6 +17,9 @@ import negocio.Usuario;
  */
 public class Login extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public static String username;
 
     /**
@@ -133,7 +136,7 @@ public class Login extends javax.swing.JFrame {
                     case 1:
                         break;
                     case 2:
-                        Funcionario funcionario = new Funcionario(usuario.getId(),usuario.getRut(),usuario.getNombre(),usuario.getPerfil(),usuario.getSede(),usuario.getCarrera());
+                        Funcionario funcionario = new Funcionario(usuario.getId(), usuario.getRut(), usuario.getNombre(), usuario.getPerfil(), usuario.getSede(), usuario.getCarrera());
                         Funcionario_Main vista_funcionario = new Funcionario_Main(funcionario);
                         vista_funcionario.setVisible(true);
                         this.setVisible(false);
@@ -149,8 +152,11 @@ public class Login extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorectas!\nIngrese sus datos nuevamente.", "Datos Incorrectos", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_login_submitActionPerformed
