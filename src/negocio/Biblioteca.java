@@ -177,7 +177,7 @@ public class Biblioteca {
      * @return
      * @throws Exception
      */
-    public int validarDevolucion(int idPrestamo) throws Exception {
+    public int validarAtraso(int idPrestamo) throws Exception {
         try {
             Prestamo prestamoBuscado = new Prestamo(idPrestamo);
             prestamoBuscado.obtenerDatos();

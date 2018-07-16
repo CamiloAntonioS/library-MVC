@@ -125,7 +125,7 @@ public class Login extends javax.swing.JFrame {
         if (ValidacionRut.IngresoRut(username)) {
 
         } else {
-            JOptionPane.showMessageDialog(null, "Rut ingresado no es valido!", "Exito!", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Rut ingresado no es valido!", "Rut mal ingresado!", JOptionPane.ERROR_MESSAGE);
             return;
         }
         Usuario usuario = new Usuario(username, password);

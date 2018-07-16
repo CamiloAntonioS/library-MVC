@@ -101,6 +101,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Realizar Pr&#xe9;stamo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fun_btn_realizarprestamoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="fun_btn_vigentes">
           <Properties>

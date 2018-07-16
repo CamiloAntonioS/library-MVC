@@ -23,6 +23,7 @@ public class Usuario {
     private String username;
     private String password;
     private int carrera;
+    private int multaAcumulada;
     private DatosUsuario dbUsuario;
 
     /**
@@ -42,6 +43,10 @@ public class Usuario {
         this.sede = sede;
         this.carrera = carrera;
     }
+    
+    public Usuario(String rut) throws Exception{
+        this.setRut(rut);
+    }
 
     /**
      *
@@ -51,6 +56,9 @@ public class Usuario {
     public Usuario(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public Usuario() {
     }
 
     /**
@@ -117,16 +125,16 @@ public class Usuario {
      * @throws Exception
      */
     public boolean iniciarSesion(String username, String password) throws Exception {
-        this.dbUsuario = new DatosUsuario();
-        this.dbUsuario.setUsername(username);
-        this.dbUsuario.setPassword(password);
-        if (dbUsuario.Buscar()) {
-            this.id = dbUsuario.getId();
-            this.rut = dbUsuario.getRut();
-            this.nombre = dbUsuario.getNombre();
-            this.perfil = dbUsuario.getPerfil();
-            this.sede = dbUsuario.getSede();
-            this.carrera = dbUsuario.getCarrera();
+        this.setDbUsuario(new DatosUsuario());
+        this.getDbUsuario().setUsername(username);
+        this.getDbUsuario().setPassword(password);
+        if (getDbUsuario().Buscar()) {
+            this.setId(getDbUsuario().getId());
+            this.setRut(getDbUsuario().getRut());
+            this.setNombre(getDbUsuario().getNombre());
+            this.setPerfil(getDbUsuario().getPerfil());
+            this.setSede(getDbUsuario().getSede());
+            this.setCarrera(getDbUsuario().getCarrera());
             return true;
         } else {
             return false;
@@ -139,8 +147,8 @@ public class Usuario {
      */
     public ResultSet listarPrestamos() throws SQLException {
         ResultSet rs;
-        this.dbUsuario.setId(this.id);
-        rs = this.dbUsuario.listarPrestamos();
+        this.getDbUsuario().setId(this.getId());
+        rs = this.getDbUsuario().listarPrestamos();
         return rs;
     }
 
@@ -152,8 +160,8 @@ public class Usuario {
      */
     public ResultSet filtrarPrestamos(String nombre_texto) throws SQLException {
         ResultSet rs;
-        this.dbUsuario.setId(this.id);
-        rs = this.dbUsuario.filtrarPrestamos(nombre_texto);
+        this.getDbUsuario().setId(this.getId());
+        rs = this.getDbUsuario().filtrarPrestamos(nombre_texto);
         return rs;
     }
 
@@ -164,9 +172,9 @@ public class Usuario {
      * @throws java.sql.SQLException
      */
     public int solicitarRenovacion(int id_prestamo) throws SQLException, Exception {
-        switch (this.dbUsuario.checkearSolicitud(id_prestamo)) {
+        switch (this.getDbUsuario().checkearSolicitud(id_prestamo)) {
             case 0:
-                int registroAfectado = this.dbUsuario.solicitarRenovacion(id_prestamo);
+                int registroAfectado = this.getDbUsuario().solicitarRenovacion(id_prestamo);
                 if (registroAfectado == 1) {
                     return 1;
                 }  else {
@@ -176,5 +184,105 @@ public class Usuario {
                 return 2;
         }
         return -1;
+    }
+    
+    public boolean obtenerDatosPrestamo() throws Exception{
+        this.setDbUsuario(new DatosUsuario());
+        this.getDbUsuario().setRut(this.getRut());
+        boolean res = this.getDbUsuario().obtenerDatosPrestamo();
+        this.datosaUsuario();
+        return res;
+    }
+    
+    private void datosaUsuario(){
+        this.setId(this.getDbUsuario().getId());
+        this.setNombre(this.getDbUsuario().getNombre());
+        this.setPerfil(this.getDbUsuario().getPerfil());
+        this.setSede(this.getDbUsuario().getSede());
+        this.setMultaAcumulada(this.getDbUsuario().getMultaAcumulada());
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param rut the rut to set
+     */
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @param perfil the perfil to set
+     */
+    public void setPerfil(int perfil) {
+        this.perfil = perfil;
+    }
+
+    /**
+     * @param sede the sede to set
+     */
+    public void setSede(int sede) {
+        this.sede = sede;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @param carrera the carrera to set
+     */
+    public void setCarrera(int carrera) {
+        this.carrera = carrera;
+    }
+
+    /**
+     * @return the multaAcumulada
+     */
+    public int getMultaAcumulada() {
+        return multaAcumulada;
+    }
+
+    /**
+     * @param multaAcumulada the multaAcumulada to set
+     */
+    public void setMultaAcumulada(int multaAcumulada) {
+        this.multaAcumulada = multaAcumulada;
+    }
+
+    /**
+     * @return the dbUsuario
+     */
+    public DatosUsuario getDbUsuario() {
+        return dbUsuario;
+    }
+
+    /**
+     * @param dbUsuario the dbUsuario to set
+     */
+    public void setDbUsuario(DatosUsuario dbUsuario) {
+        this.dbUsuario = dbUsuario;
     }
 }

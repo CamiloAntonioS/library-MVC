@@ -26,6 +26,7 @@ public class Libro {
     private int biblioteca;
     private ResultSet todoLibros;
     private ResultSet todoLibrosTabla;
+    private DatosLibro dbLibro;
 
     /**
      *
@@ -48,25 +49,27 @@ public class Libro {
         this.paginas = paginas;
         this.biblioteca = biblioteca;
     }
-    
+
     /*
     Este constructor solo se utiliza para traer todos los libros de la DB!
-    */
-
+     */
     /**
      *
      */
-
     public Libro() {
         this.traerLibros();
         this.traerLibrosTabla();
+    }
+    
+    public Libro(int idLibro) throws Exception{
+        this.setId(idLibro);
     }
 
     private void traerLibros() {
         DatosLibro datosLibro;
         try {
             datosLibro = new DatosLibro();
-            todoLibros = datosLibro.TraerTodo();
+            this.setTodoLibros(datosLibro.TraerTodo());
         } catch (Exception ex) {
             Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,12 +79,12 @@ public class Libro {
         DatosLibro datosLibro;
         try {
             datosLibro = new DatosLibro();
-            todoLibrosTabla = datosLibro.TraerTodoParaTabla();
+            this.setTodoLibrosTabla(datosLibro.TraerTodoParaTabla());
         } catch (Exception ex) {
             Logger.getLogger(Libro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      *
      * @param filtro_nombre
@@ -92,13 +95,23 @@ public class Libro {
      * @return
      * @throws Exception
      */
-    public ResultSet filtrarLibreria(String filtro_nombre,String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) throws Exception{
+    public ResultSet filtrarLibreria(String filtro_nombre, String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) throws Exception {
         try {
             DatosLibro datosLibro = new DatosLibro();
-            ResultSet rs= datosLibro.Buscar(filtro_nombre,filtro_autor,filtro_cat,filtro_idioma,filtro_demanda);
+            ResultSet rs = datosLibro.Buscar(filtro_nombre, filtro_autor, filtro_cat, filtro_idioma, filtro_demanda);
             return rs;
         } catch (Exception ex) {
-           throw ex;
+            throw ex;
+        }
+    }
+
+    public ResultSet filtrarLibreria(String filtro_nombre) throws Exception {
+        try {
+            DatosLibro datosLibro = new DatosLibro();
+            ResultSet rs = datosLibro.Buscar(filtro_nombre);
+            return rs;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
@@ -170,6 +183,90 @@ public class Libro {
      */
     public ResultSet getTodoLibrosTabla() {
         return todoLibrosTabla;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @param autor the autor to set
+     */
+    public void setAutor(int autor) {
+        this.autor = autor;
+    }
+
+    /**
+     * @param genero the genero to set
+     */
+    public void setGenero(int genero) {
+        this.genero = genero;
+    }
+
+    /**
+     * @param demanda the demanda to set
+     */
+    public void setDemanda(String demanda) {
+        this.demanda = demanda;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    /**
+     * @param paginas the paginas to set
+     */
+    public void setPaginas(int paginas) {
+        this.paginas = paginas;
+    }
+
+    /**
+     * @param biblioteca the biblioteca to set
+     */
+    public void setBiblioteca(int biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+
+    /**
+     * @param todoLibros the todoLibros to set
+     */
+    public void setTodoLibros(ResultSet todoLibros) {
+        this.todoLibros = todoLibros;
+    }
+
+    /**
+     * @param todoLibrosTabla the todoLibrosTabla to set
+     */
+    public void setTodoLibrosTabla(ResultSet todoLibrosTabla) {
+        this.todoLibrosTabla = todoLibrosTabla;
+    }
+
+    /**
+     * @return the dbLibro
+     */
+    public DatosLibro getDbLibro() {
+        return dbLibro;
+    }
+
+    /**
+     * @param dbLibro the dbLibro to set
+     */
+    public void setDbLibro(DatosLibro dbLibro) {
+        this.dbLibro = dbLibro;
     }
 
 }

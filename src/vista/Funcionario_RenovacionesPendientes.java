@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import negocio.Funcionario;
+import negocio.Prestamo;
 
 /**
  *
@@ -63,7 +65,7 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                 row[i - 1] = rs.getObject(i);
             }
             ((DefaultTableModel) frenopend_tabla.getModel()).insertRow(rs.getRow() - 1, row);
-        } 
+        }
     }
 
     /**
@@ -83,7 +85,6 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
         frenodev_filtro_nombre1 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         fun_btn_realreno = new javax.swing.JButton();
-        fun_btn_devolucion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -131,9 +132,11 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
 
         fun_btn_realreno.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_realreno.setText("Realizar Renovación");
-
-        fun_btn_devolucion.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        fun_btn_devolucion.setText("Aceptar Devolución");
+        fun_btn_realreno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_realrenoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,15 +150,12 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(frenodev_filtro_nombre))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(fun_btn_realreno)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fun_btn_devolucion, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(frenodev_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(fun_btn_realreno, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,14 +177,50 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                     .addComponent(frenodev_filtro_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fun_btn_realreno)
-                    .addComponent(fun_btn_devolucion))
+                .addComponent(fun_btn_realreno)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void fun_btn_realrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_realrenoActionPerformed
+        try {
+            int selectedRow = this.frenopend_tabla.getSelectedRow();
+            if (selectedRow >= 0) {
+                int idPrestamo = (Integer) this.frenopend_tabla.getValueAt(selectedRow, 0);
+                Prestamo prestamoBuscado = new Prestamo(idPrestamo);
+                switch (prestamoBuscado.obtenerDatos()) {
+                    case 1:
+                        JOptionPane.showMessageDialog(null, "Se encuentra fuera de plazo de Entrega\nDebe devolver el libro y cancelar la multa.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        JOptionPane.showMessageDialog(null, "No puede renovar este texto por tener Alta demanda y tener la cantidad maxima de renovaciones permitidas.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 3:
+                        JOptionPane.showMessageDialog(null, "No puede renovar este texto por tener la cantidad maxima de renovaciones permitidas.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 4:
+                        int input = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea aceptar la renovación del texto:\n" + prestamoBuscado.getNombre_libro(), "Confirmar Renovación", JOptionPane.YES_NO_OPTION);
+                        switch (input) {
+                            case 0:
+                                prestamoBuscado.registrarRenovacion();
+                                JOptionPane.showMessageDialog(null, "Texto renovado exitosamente.", "Operacion Realizada", JOptionPane.INFORMATION_MESSAGE);
+                                this.listarPrestamosAceptacion();
+                                break;
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "Renovacion no realizada.", "Operación Cancelada", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                        }
+                        break;
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
+            Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_fun_btn_realrenoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,7 +262,6 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
     private javax.swing.JTextField frenodev_filtro_nombre;
     private javax.swing.JTextField frenodev_filtro_nombre1;
     private javax.swing.JTable frenopend_tabla;
-    private javax.swing.JButton fun_btn_devolucion;
     private javax.swing.JButton fun_btn_realreno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

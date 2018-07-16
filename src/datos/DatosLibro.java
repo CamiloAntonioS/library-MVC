@@ -30,6 +30,7 @@ public class DatosLibro {
     private String username;
     private String password;
     private int carrera;
+    private String demanda;
 
     /**
      *
@@ -44,22 +45,6 @@ public class DatosLibro {
         }
     }
 
-    /**
-     *
-     * @return
-     * @throws Exception
-     */
-    public int Guardar() throws Exception {
-        int res = 0;
-        try {
-            this.setComando(this.getConexion().createStatement());
-            String sql = "insert into usuario (rut, nombre, password) values ('" + this.getRut() + "','" + this.getNombre() + "','" + this.getPassword() + "')";
-            res = getComando().executeUpdate(sql);
-        } catch (SQLException ex) {
-            throw ex;
-        }
-        return res;
-    }
 
     /**
      *
@@ -104,8 +89,9 @@ public class DatosLibro {
      * @param filtro_idioma
      * @param filtro_demanda
      * @return
+     * @throws java.sql.SQLException
      */
-    public ResultSet Buscar(String filtro_nombre, String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) {
+    public ResultSet Buscar(String filtro_nombre, String filtro_autor, String filtro_cat, String filtro_idioma, String filtro_demanda) throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
             String sql = "SELECT "
@@ -125,15 +111,40 @@ public class DatosLibro {
                     + "WHERE libro.nombre LIKE '%" + filtro_nombre + "%' "
                     + "AND autor.nombre LIKE '%" + filtro_autor + "%' "
                     + "AND categoria.nombre LIKE '%" + filtro_cat + "%' "
-                    + "AND libro.idioma LIKE '%" + filtro_idioma+ "%' "
+                    + "AND libro.idioma LIKE '%" + filtro_idioma + "%' "
                     + "AND libro.demanda LIKE '%" + filtro_demanda + "%' ";
 
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {
-            return null;
+            throw ex;
         }
+    }
 
+    public ResultSet Buscar(String filtro_nombre) throws SQLException {
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "SELECT "
+                    + "libro.id,"
+                    + "libro.nombre,"
+                    + "autor.nombre,"
+                    + "categoria.nombre,"
+                    + "libro.idioma,"
+                    + "libro.cantidad,"
+                    + "libro.paginas,"
+                    + "libro.demanda,"
+                    + "libro_estado.estado "
+                    + "FROM `libro`\n"
+                    + "INNER JOIN autor ON autor.id = libro.autor\n"
+                    + "INNER JOIN categoria ON categoria.id = libro.categoria\n"
+                    + "INNER JOIN libro_estado ON libro_estado.id = libro.estado\n"
+                    + "WHERE libro.nombre LIKE '%" + filtro_nombre + "%' ";
+
+            setResultado(getComando().executeQuery(sql));
+            return getResultado();
+        } catch (SQLException ex) {
+            throw ex;
+        }
     }
 
     /**
@@ -351,6 +362,20 @@ public class DatosLibro {
      */
     public void setSede(int sede) {
         this.sede = sede;
+    }
+
+    /**
+     * @return the demanda
+     */
+    public String getDemanda() {
+        return demanda;
+    }
+
+    /**
+     * @param demanda the demanda to set
+     */
+    public void setDemanda(String demanda) {
+        this.demanda = demanda;
     }
 
 }

@@ -56,6 +56,11 @@ public class Funcionario_Main extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Menú", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
 
         fun_btn_realizarprestamo.setText("Realizar Préstamo");
+        fun_btn_realizarprestamo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_realizarprestamoActionPerformed(evt);
+            }
+        });
 
         fun_btn_vigentes.setText("<html><center>Préstamos Vigentes (Renovaciones y Devoluciones)</center></html>");
         fun_btn_vigentes.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +135,11 @@ public class Funcionario_Main extends javax.swing.JFrame {
         Funcionario_RenovacionesPendientes funPrestamos = new Funcionario_RenovacionesPendientes(this.funcionario);
         funPrestamos.setVisible(true);
     }//GEN-LAST:event_fun_btn_renopendientesActionPerformed
+
+    private void fun_btn_realizarprestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_realizarprestamoActionPerformed
+        Funcionario_NuevoPrestamo funPrestamos = new Funcionario_NuevoPrestamo(this.funcionario);
+        funPrestamos.setVisible(true);
+    }//GEN-LAST:event_fun_btn_realizarprestamoActionPerformed
 
     /**
      * @param args the command line arguments

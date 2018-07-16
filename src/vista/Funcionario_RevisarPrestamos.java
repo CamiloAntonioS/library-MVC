@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import negocio.Biblioteca;
 import negocio.Funcionario;
+import negocio.Prestamo;
 
 /**
  *
@@ -46,6 +47,8 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
             this.funcionario.setBiblioteca(biblioteca);
             this.listarPrestamos();
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -55,6 +58,8 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
             ResultSet rs = this.funcionario.listarPrestamosBiblioteca();
             this.llenarTabla(rs);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -220,6 +225,8 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
             ResultSet rs = this.funcionario.filtrarPrestamosBiblioteca(filtro_texto, filtro_rut);
             this.llenarTabla(rs);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_frenodev_filtro_nombreKeyReleased
@@ -236,7 +243,41 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
     }//GEN-LAST:event_frenodev_filtro_rutKeyReleased
 
     private void fun_btn_realrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_realrenoActionPerformed
-
+        try {
+            int selectedRow = this.frenodev_tabla.getSelectedRow();
+            if (selectedRow >= 0) {
+                int idPrestamo = (Integer) this.frenodev_tabla.getValueAt(selectedRow, 0);
+                Prestamo prestamoBuscado = new Prestamo(idPrestamo);
+                switch (prestamoBuscado.obtenerDatos()) {
+                    case 1:
+                        JOptionPane.showMessageDialog(null, "Se encuentra fuera de plazo de Entrega\nDebe devolver el libro y cancelar la multa.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 2:
+                        JOptionPane.showMessageDialog(null, "No puede renovar este texto por tener Alta demanda y tener la cantidad maxima de renovaciones permitidas.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 3:
+                        JOptionPane.showMessageDialog(null, "No puede renovar este texto por tener la cantidad maxima de renovaciones permitidas.", "Inhabilitado para Renovacion!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 4:
+                        int input = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea aceptar la renovación del texto:\n" + prestamoBuscado.getNombre_libro(), "Confirmar Renovación", JOptionPane.YES_NO_OPTION);
+                        switch (input) {
+                            case 0:
+                                prestamoBuscado.registrarRenovacion();
+                                JOptionPane.showMessageDialog(null, "Texto renovado exitosamente.", "Operacion Realizada", JOptionPane.INFORMATION_MESSAGE);
+                                this.listarPrestamos();
+                                break;
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "Renovacion no realizada.", "Operación Cancelada", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                        }
+                        break;
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
+            Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_fun_btn_realrenoActionPerformed
 
     private void fun_btn_devolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_devolucionActionPerformed
@@ -244,7 +285,7 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
             int selectedRow = this.frenodev_tabla.getSelectedRow();
             if (selectedRow >= 0) {
                 int idPrestamo = (Integer) this.frenodev_tabla.getValueAt(selectedRow, 0);
-                int diasAtraso = this.biblioteca.validarDevolucion(idPrestamo);
+                int diasAtraso = this.biblioteca.validarAtraso(idPrestamo);
                 if (diasAtraso == -1) {
                     String nombreTexto = this.biblioteca.nombreTextoPrestamo(idPrestamo);
                     int input = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea aceptar la devolución del texto:\n" + nombreTexto, "Confirmar Recepción", JOptionPane.YES_NO_OPTION);
@@ -255,7 +296,7 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                             this.listarPrestamos();
                             break;
                         case 1:
-                            JOptionPane.showConfirmDialog(null, "Devolución no realizada.", "Operación Cancelada", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Devolución no realizada.", "Operación Cancelada", JOptionPane.INFORMATION_MESSAGE);
                             break;
                     }
                 } else if (diasAtraso > 0) {
@@ -285,7 +326,9 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                 }
             }
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
             System.out.println(ex);
+            Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_fun_btn_devolucionActionPerformed
 

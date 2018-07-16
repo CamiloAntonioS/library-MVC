@@ -6,6 +6,7 @@
 package datos;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,10 +27,13 @@ public class DatosPrestamo {
     private int prestamo_usuario;
     private int perfil_usuario;
     private int prestamo_libro;
+    private int prestamo_sede;
     private String nombre_libro;
     private String demanda_libro;
     private int prestamo_funcionario;
     private int diasAtraso;
+    private int cantReno;
+    private Date fecha_entrega;
 
     /**
      *
@@ -66,6 +70,8 @@ public class DatosPrestamo {
                 this.setDemanda_libro(rs.getString("demanda"));
                 this.setPrestamo_funcionario(rs.getInt("prestamo_funcionario"));
                 this.setDiasAtraso(rs.getInt("atraso"));
+                this.setCantReno(rs.getInt("cantidad_renovaciones"));
+                this.setFecha_entrega(rs.getDate("fecha_entrega"));
                 return true;
             }
             return false;
@@ -76,8 +82,32 @@ public class DatosPrestamo {
 
     /**
      *
-     * @return
-     * @throws SQLException
+     * @param fechaDB
+     * @return @throws Exception
+     */
+    public int registrarPrestamo(Date fechaDB) throws Exception {
+        int res = 0;
+        Date actual = new java.sql.Date(new java.util.Date().getTime());
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "INSERT INTO `prestamos`(`prestamo_usuario`, `prestamo_libro`, `prestamo_sede`, `prestamo_funcionario`, `fecha_prestamo`, `fecha_entrega`) "
+                    + "VALUES ("
+                    + this.getPrestamo_usuario()+","
+                    + this.getPrestamo_libro()+","
+                    + this.getPrestamo_sede()+","
+                    + this.getPrestamo_funcionario()+","
+                    + "'"+actual+"',"
+                    + "'"+fechaDB+"')";
+            res = getComando().executeUpdate(sql);
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @return @throws SQLException
      */
     public int registrarDevolucion() throws SQLException {
         int res = 0;
@@ -86,7 +116,7 @@ public class DatosPrestamo {
             this.setComando(this.getConexion().createStatement());
             String sql = "UPDATE `prestamos` SET `entregado` = 1"
                     + ", fecha_entregado='" + actual
-                    + "' WHERE `prestamos`.`id` =" + this.idPrestamo;
+                    + "' WHERE `prestamos`.`id` =" + this.getIdPrestamo();
             res = getComando().executeUpdate(sql);
         } catch (SQLException ex) {
             throw ex;
@@ -108,7 +138,7 @@ public class DatosPrestamo {
             String sql = "UPDATE `prestamos` SET `entregado` = 1"
                     + ", fecha_entregado='" + actual
                     + "' ,multa_pagada=" + multa
-                    + " WHERE `prestamos`.`id` =" + this.idPrestamo;
+                    + " WHERE `prestamos`.`id` =" + this.getIdPrestamo();
             res = getComando().executeUpdate(sql);
         } catch (SQLException ex) {
             throw ex;
@@ -119,14 +149,15 @@ public class DatosPrestamo {
     /**
      *
      * @param idPrestamo
+     * @param fecha_renovada
      * @return
      * @throws SQLException
      */
-    public int registrarRenovacion(int idPrestamo) throws SQLException {
+    public int registrarRenovacion(int idPrestamo, Date fecha_renovada) throws SQLException {
         int res = 0;
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "UPDATE `prestamos` SET `fecha_entrega` = fecha_entrega+7 WHERE `prestamos`.`id` =" + idPrestamo;
+            String sql = "UPDATE `prestamos` SET `fecha_entrega` = '" + fecha_renovada + "',renovado=renovado+1 WHERE `prestamos`.`id` =" + idPrestamo;
             res = getComando().executeUpdate(sql);
         } catch (SQLException ex) {
             throw ex;
@@ -300,6 +331,48 @@ public class DatosPrestamo {
      */
     public void setDiasAtraso(int diasAtraso) {
         this.diasAtraso = diasAtraso;
+    }
+
+    /**
+     * @return the cantReno
+     */
+    public int getCantReno() {
+        return cantReno;
+    }
+
+    /**
+     * @param cantReno the cantReno to set
+     */
+    public void setCantReno(int cantReno) {
+        this.cantReno = cantReno;
+    }
+
+    /**
+     * @return the fecha_entrega
+     */
+    public Date getFecha_entrega() {
+        return fecha_entrega;
+    }
+
+    /**
+     * @param fecha_entrega the fecha_entrega to set
+     */
+    public void setFecha_entrega(Date fecha_entrega) {
+        this.fecha_entrega = fecha_entrega;
+    }
+
+    /**
+     * @return the prestamo_sede
+     */
+    public int getPrestamo_sede() {
+        return prestamo_sede;
+    }
+
+    /**
+     * @param prestamo_sede the prestamo_sede to set
+     */
+    public void setPrestamo_sede(int prestamo_sede) {
+        this.prestamo_sede = prestamo_sede;
     }
 
 }

@@ -6,7 +6,9 @@
 package negocio;
 
 import datos.DatosPrestamo;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 /**
  *
@@ -14,15 +16,33 @@ import java.sql.SQLException;
  */
 public class Prestamo {
 
+    /**
+     * @return the cantReno
+     */
+    public int getCantReno() {
+        return cantReno;
+    }
+
+    /**
+     * @param cantReno the cantReno to set
+     */
+    public void setCantReno(int cantReno) {
+        this.cantReno = cantReno;
+    }
+
     private int idPrestamo;
     private int prestamo_usuario;
     private int perfil_usuario;
     private int prestamo_libro;
+    private int prestamo_sede;
     private String nombre_libro;
     private String demanda_libro;
     private int prestamo_funcionario;
     private int diasAtraso;
+    private int cantReno;
     private DatosPrestamo dbPrestamo;
+    private Date fechaEntrega;
+    private int diasAgregarReno;
 
     /**
      *
@@ -58,17 +78,61 @@ public class Prestamo {
         this.dbPrestamo = new DatosPrestamo();
     }
 
+    public Prestamo() throws Exception {
+        this.dbPrestamo = new DatosPrestamo();
+    }
+
     /**
      *
-     * @throws SQLException
+     * @return @throws SQLException
+     * @return 1 = Prestamo tiene atrasos
+     * @return 2 = No se puede renovar por cantidad de renovaciones y Demanda
+     * Alta
+     * @return 3 = No se puede renovar por cantidad de renovaciones
+     * @return 4 = Permite renovar
      * @throws Exception
      */
-    public void obtenerDatos() throws SQLException, Exception {
-        if (this.dbPrestamo.obtenerDatos(this.idPrestamo)) {
+    public int obtenerDatos() throws SQLException, Exception {
+        if (this.getDbPrestamo().obtenerDatos(this.getIdPrestamo())) {
             this.datosaNegocio();
+            if (this.getDiasAtraso() <= 0) {
+                //Camino para Perfil de Alumno
+                if (this.getPerfil_usuario() == 4) {
+                    if (this.getCantReno() == 1 && this.getDemanda_libro().equals("Alta")) {
+                        return 2;
+                    } else if (this.getCantReno() == 2 && this.getDemanda_libro().equals("Normal")) {
+                        return 3;
+                    } else if (this.getCantReno() == 0 && this.getDemanda_libro().equals("Alta")) {
+                        this.setDiasAgregarReno(2);
+                        return 4;
+                    } else if (this.getCantReno() < 2 && this.getDemanda_libro().equals("Normal")) {
+                        this.setDiasAgregarReno(5);
+                        return 4;
+                    }
+                } //Camino para Perfil de Docente
+                else if (this.getPerfil_usuario() == 3) {
+                    if (this.getCantReno() == 2 && this.getDemanda_libro().equals("Alta")) {
+                        return 2;
+                    }
+                    if (this.getCantReno() < 2 && this.getDemanda_libro().equals("Alta")) {
+                        this.setDiasAgregarReno(3);
+                        return 4;
+                    } else if (this.getDemanda_libro().equals("Normal")) {
+                        this.setDiasAgregarReno(10);
+                        return 4;
+                    }
+                }
+            } else {
+                return 1;
+            }
+            return -99;
         } else {
             throw new Exception("Ha ocurrido un problema al buscar el prestamo solicitado.\nIntente nuevamente en unos segundos.");
         }
+    }
+
+    public void registrarRenovacion() throws SQLException {
+        this.getDbPrestamo().registrarRenovacion(this.getIdPrestamo(), this.calcularDias(this.getFechaEntrega(),this.getDiasAgregarReno()));
     }
 
     /**
@@ -76,34 +140,82 @@ public class Prestamo {
      * @throws SQLException
      */
     public void registrarDevolución() throws SQLException {
-        this.dbPrestamo.setIdPrestamo(this.idPrestamo);
-        this.dbPrestamo.registrarDevolucion();
+        this.getDbPrestamo().setIdPrestamo(this.getIdPrestamo());
+        this.getDbPrestamo().registrarDevolucion();
     }
 
     void registrarDevoluciónMultada(int multa) throws SQLException {
-        this.dbPrestamo.setIdPrestamo(this.idPrestamo);
-        this.dbPrestamo.registrarDevolucionMultada(multa);
+        this.getDbPrestamo().setIdPrestamo(this.getIdPrestamo());
+        this.getDbPrestamo().registrarDevolucionMultada(multa);
+    }
+
+    public int registrarPrestamo() throws Exception {
+        this.dbPrestamo.setPrestamo_usuario(this.getPrestamo_usuario());
+        this.dbPrestamo.setPrestamo_libro(this.getPrestamo_libro());
+        this.dbPrestamo.setPrestamo_sede(this.getPrestamo_sede());
+        this.dbPrestamo.setDemanda_libro(this.getDemanda_libro());
+        this.dbPrestamo.setPrestamo_funcionario(this.getPrestamo_funcionario());
+        //Calculo de fecha a registrar de acuerdo a demanda y perfil del Usuario al que se le prestara el libro
+        Date fechaDB = null;
+        Date ahora = new java.sql.Date(new java.util.Date().getTime());
+        if (this.getPerfil_usuario() == 4) {
+            if (this.getDemanda_libro().equals("Alta")) {
+                fechaDB = this.calcularDias(ahora, 2);
+            } else if (this.getDemanda_libro().equals("Normal")) {
+                fechaDB = this.calcularDias(ahora, 5);
+            }
+        } //Camino para Perfil de Docente
+        else if (this.getPerfil_usuario() == 3) {
+            if ( this.getDemanda_libro().equals("Alta")) {
+               fechaDB = this.calcularDias(ahora, 3);
+            }
+            else if (this.getDemanda_libro().equals("Normal")) {
+                fechaDB = this.calcularDias(ahora, 10);
+            }
+        }
+        return this.dbPrestamo.registrarPrestamo(fechaDB);
     }
 
     /**
      *
-     * @return
-     * @throws SQLException
+     * @return @throws SQLException
      */
     public String nombreTexto() throws SQLException {
-        this.dbPrestamo.setIdPrestamo(this.idPrestamo);
-        this.dbPrestamo.obtenerDatos(this.idPrestamo);
-        return this.dbPrestamo.getNombre_libro();
+        this.getDbPrestamo().setIdPrestamo(this.getIdPrestamo());
+        this.getDbPrestamo().obtenerDatos(this.getIdPrestamo());
+        return this.getDbPrestamo().getNombre_libro();
     }
 
     private void datosaNegocio() {
-        this.prestamo_usuario = this.dbPrestamo.getPrestamo_usuario();
-        this.perfil_usuario = this.dbPrestamo.getPerfil_usuario();
-        this.prestamo_libro = this.dbPrestamo.getPrestamo_libro();
-        this.nombre_libro = this.dbPrestamo.getNombre_libro();
-        this.demanda_libro = this.dbPrestamo.getDemanda_libro();
-        this.prestamo_funcionario = this.dbPrestamo.getPrestamo_funcionario();
-        this.diasAtraso = this.dbPrestamo.getDiasAtraso();
+        this.setPrestamo_usuario(this.getDbPrestamo().getPrestamo_usuario());
+        this.setPerfil_usuario(this.getDbPrestamo().getPerfil_usuario());
+        this.setPrestamo_libro(this.getDbPrestamo().getPrestamo_libro());
+        this.setNombre_libro(this.getDbPrestamo().getNombre_libro());
+        this.setDemanda_libro(this.getDbPrestamo().getDemanda_libro());
+        this.setPrestamo_funcionario(this.getDbPrestamo().getPrestamo_funcionario());
+        this.setDiasAtraso(this.getDbPrestamo().getDiasAtraso());
+        this.setCantReno(this.getDbPrestamo().getCantReno());
+        this.setFechaEntrega(this.getDbPrestamo().getFecha_entrega());
+    }
+
+    private Date calcularDias(Date fechaEntrega, int diasAgregar) {
+        int agregarDias = 1;
+        Calendar fechaRenovadaCal = Calendar.getInstance();
+        fechaRenovadaCal.setTime(fechaEntrega);
+        while (agregarDias < diasAgregar) {
+            fechaRenovadaCal.add(Calendar.DAY_OF_MONTH, 1);
+            switch (fechaRenovadaCal.get(Calendar.DAY_OF_MONTH)) {
+                case Calendar.SATURDAY:
+                    break;
+                case Calendar.SUNDAY:
+                    break;
+                default:
+                    agregarDias++;
+                    break;
+            }
+        }
+        Date fechaRenovada = new java.sql.Date(fechaRenovadaCal.getTimeInMillis());
+        return fechaRenovada;
     }
 
     /**
@@ -230,6 +342,48 @@ public class Prestamo {
      */
     public void setDbPrestamo(DatosPrestamo dbPrestamo) {
         this.dbPrestamo = dbPrestamo;
+    }
+
+    /**
+     * @return the fechaEntrega
+     */
+    public Date getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    /**
+     * @param fechaEntrega the fechaEntrega to set
+     */
+    public void setFechaEntrega(Date fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    /**
+     * @return the diasAgregarReno
+     */
+    public int getDiasAgregarReno() {
+        return diasAgregarReno;
+    }
+
+    /**
+     * @param diasAgregarReno the diasAgregarReno to set
+     */
+    public void setDiasAgregarReno(int diasAgregarReno) {
+        this.diasAgregarReno = diasAgregarReno;
+    }
+
+    /**
+     * @return the prestamo_sede
+     */
+    public int getPrestamo_sede() {
+        return prestamo_sede;
+    }
+
+    /**
+     * @param prestamo_sede the prestamo_sede to set
+     */
+    public void setPrestamo_sede(int prestamo_sede) {
+        this.prestamo_sede = prestamo_sede;
     }
 
 }

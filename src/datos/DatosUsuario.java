@@ -35,6 +35,7 @@ public class DatosUsuario {
     private int sede;
     private String username;
     private String password;
+    private int multaAcumulada;
     private int carrera;
 
     /**
@@ -48,57 +49,6 @@ public class DatosUsuario {
         } catch (Exception ex) {
             throw ex;
         }
-    }
-
-    /**
-     *
-     * @return @throws Exception
-     */
-    public int Guardar() throws Exception {
-        int res = 0;
-        try {
-            this.setComando(this.getConexion().createStatement());
-            String sql = "insert into usuario (rut, nombre, password) values ('" + this.getRut() + "','" + this.getNombre() + "','" + this.getPassword() + "')";
-            res = getComando().executeUpdate(sql);
-        } catch (SQLException ex) {
-            throw ex;
-        }
-        return res;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int Modificar() {
-        int res = 0;
-        try {
-            this.setComando(this.getConexion().createStatement());
-            String sql = "update usuario set nombre='" + this.getNombre() + "', password='" + this.getPassword() + "' where rut='" + this.getRut() + "'";
-
-            res = getComando().executeUpdate(sql);
-
-        } catch (SQLException ex) {
-            //capturamos SQLException Hacer Algo
-        }
-        return res;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int Eliminar() {
-        int res = 0;
-        try {
-            this.setComando(this.getConexion().createStatement());
-            String sql = "delete from usuario where rut='" + this.getRut() + "'";
-
-            res = getComando().executeUpdate(sql);
-        } catch (SQLException ex) {
-            //capturamos SQLException Hacer Algo
-        }
-        return res;
     }
 
     /**
@@ -120,6 +70,27 @@ public class DatosUsuario {
                 this.setPerfil(getResultado().getInt("perfil"));
                 this.setSede(getResultado().getInt("sede"));
                 this.setCarrera(getResultado().getInt("carrera"));
+                res = true;
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
+    }
+
+    public boolean obtenerDatosPrestamo() throws SQLException {
+        boolean res = false;
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "SELECT * FROM `usuario_multas` WHERE rut='" + this.getRut()+"'";
+
+            setResultado(getComando().executeQuery(sql));
+            while (getResultado().next()) {
+                this.setId(getResultado().getInt("id"));
+                this.setNombre(getResultado().getString("nombre"));
+                this.setPerfil(getResultado().getInt("perfil"));
+                this.setSede(getResultado().getInt("sede"));
+                this.setMultaAcumulada(getResultado().getInt("multa_acumulada"));
                 res = true;
             }
         } catch (SQLException ex) {
@@ -413,6 +384,20 @@ public class DatosUsuario {
      */
     public void setSede(int sede) {
         this.sede = sede;
+    }
+
+    /**
+     * @return the multaAcumulada
+     */
+    public int getMultaAcumulada() {
+        return multaAcumulada;
+    }
+
+    /**
+     * @param multaAcumulada the multaAcumulada to set
+     */
+    public void setMultaAcumulada(int multaAcumulada) {
+        this.multaAcumulada = multaAcumulada;
     }
 
 }
