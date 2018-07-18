@@ -36,6 +36,10 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     *
+     * @param funcionario
+     */
     public Funcionario_NuevoPrestamo(Funcionario funcionario) {
         try {
             initComponents();
@@ -68,7 +72,7 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_textos_prestamo = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Registro de préstamos");

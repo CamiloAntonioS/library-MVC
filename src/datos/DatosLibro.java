@@ -121,6 +121,12 @@ public class DatosLibro {
         }
     }
 
+    /**
+     *
+     * @param filtro_nombre
+     * @return
+     * @throws SQLException
+     */
     public ResultSet Buscar(String filtro_nombre) throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());

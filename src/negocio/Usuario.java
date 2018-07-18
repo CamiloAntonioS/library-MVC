@@ -44,6 +44,11 @@ public class Usuario {
         this.carrera = carrera;
     }
     
+    /**
+     *
+     * @param rut
+     * @throws Exception
+     */
     public Usuario(String rut) throws Exception{
         this.setRut(rut);
     }
@@ -58,6 +63,9 @@ public class Usuario {
         this.password = password;
     }
 
+    /**
+     *
+     */
     public Usuario() {
     }
 
@@ -186,6 +194,11 @@ public class Usuario {
         return -1;
     }
     
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public boolean obtenerDatosPrestamo() throws Exception{
         this.setDbUsuario(new DatosUsuario());
         this.getDbUsuario().setRut(this.getRut());
@@ -200,6 +213,18 @@ public class Usuario {
         this.setPerfil(this.getDbUsuario().getPerfil());
         this.setSede(this.getDbUsuario().getSede());
         this.setMultaAcumulada(this.getDbUsuario().getMultaAcumulada());
+    }
+    
+    /**
+     *
+     * @return
+     * @throws java.lang.Exception
+     */
+    public ResultSet listarTodo() throws Exception{
+        this.setDbUsuario(new DatosUsuario());
+        ResultSet rs = this.dbUsuario.traerTodo();
+        
+        return rs;
     }
 
     /**

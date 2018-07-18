@@ -16,6 +16,12 @@ import java.sql.SQLException;
 public class Funcionario extends Usuario {
 
     /**
+     *
+     */
+    public Funcionario() {
+    }
+
+    /**
      * @return the dbFuncionario
      */
     public DatosFuncionario getDbFuncionario() {

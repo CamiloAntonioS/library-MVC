@@ -42,11 +42,11 @@ public class DatosUsuario {
      *
      * @throws Exception
      */
-    public DatosUsuario() throws Exception {
+    public DatosUsuario() throws SQLException, Exception {
         try {
             miConexion = new Conexion();
             this.conexion = miConexion.getConexion();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw ex;
         }
     }
@@ -78,6 +78,11 @@ public class DatosUsuario {
         return res;
     }
 
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public boolean obtenerDatosPrestamo() throws SQLException {
         boolean res = false;
         try {
@@ -103,12 +108,11 @@ public class DatosUsuario {
      *
      * @return
      */
-    public ResultSet TraerTodo() {
+    public ResultSet traerTodo() {
 
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "select * from usuario order by replace(rut,'-','') desc";
-
+            String sql = "SELECT * FROM usuario ORDER BY id";
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {

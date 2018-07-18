@@ -83,9 +83,10 @@ public class DatosPrestamo {
     /**
      *
      * @param fechaDB
-     * @return @throws Exception
+     * @return
+     * @throws java.sql.SQLException @throws Exception
      */
-    public int registrarPrestamo(Date fechaDB) throws Exception {
+    public int registrarPrestamo(Date fechaDB) throws SQLException {
         int res = 0;
         Date actual = new java.sql.Date(new java.util.Date().getTime());
         try {

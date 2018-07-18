@@ -5,6 +5,7 @@
  */
 package vista;
 
+import negocio.Administrador;
 import negocio.Funcionario;
 
 /**
@@ -14,6 +15,7 @@ import negocio.Funcionario;
 public class Funcionario_Main extends javax.swing.JFrame {
 
     private Funcionario funcionario;
+    private Administrador administrador;
 
     /**
      * Creates new form Funcionario
@@ -31,6 +33,28 @@ public class Funcionario_Main extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.funcionario = funcionario;
+        this.label_titulo.setText("Bienvenido: " + this.funcionario.getNombre());
+        this.setTitle("Principal Funcionario [" + this.funcionario.getRut() + "]");
+        this.setSize(400, 400);
+        this.jpanel_Admin.setVisible(false);
+        this.jpanel_Admin.setEnabled(false);
+        this.setResizable(false);
+    }
+
+    /**
+     *
+     * @param administrador
+     */
+    public Funcionario_Main(Administrador administrador) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.administrador = administrador;
+        this.label_titulo.setText("Bienvenido: " + this.administrador.getNombre());
+        this.setTitle("Principal Administrador  [" + this.administrador.getRut() + "]");
+        this.setResizable(false);
+        this.funcionario = new Funcionario();
+        this.funcionario.setId(this.administrador.getId());
+        this.funcionario.setSede(this.administrador.getSede());
     }
 
     /**
@@ -47,6 +71,13 @@ public class Funcionario_Main extends javax.swing.JFrame {
         fun_btn_realizarprestamo = new javax.swing.JButton();
         fun_btn_vigentes = new javax.swing.JButton();
         fun_btn_renopendientes = new javax.swing.JButton();
+        jpanel_Admin = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btn_man_usuarios = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +86,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Menú", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
 
+        fun_btn_realizarprestamo.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_realizarprestamo.setText("Realizar Préstamo");
         fun_btn_realizarprestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,6 +94,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
             }
         });
 
+        fun_btn_vigentes.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_vigentes.setText("<html><center>Préstamos Vigentes (Renovaciones y Devoluciones)</center></html>");
         fun_btn_vigentes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,12 +102,66 @@ public class Funcionario_Main extends javax.swing.JFrame {
             }
         });
 
+        fun_btn_renopendientes.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         fun_btn_renopendientes.setText("Renovaciones Pendientes");
         fun_btn_renopendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fun_btn_renopendientesActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel1.setText("Mantenedores");
+
+        jButton1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jButton1.setText("Textos");
+
+        jButton2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jButton2.setText("Autores");
+
+        btn_man_usuarios.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        btn_man_usuarios.setText("Usuarios");
+        btn_man_usuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_man_usuariosActionPerformed(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jButton4.setText("Bibliotecas");
+
+        javax.swing.GroupLayout jpanel_AdminLayout = new javax.swing.GroupLayout(jpanel_Admin);
+        jpanel_Admin.setLayout(jpanel_AdminLayout);
+        jpanel_AdminLayout.setHorizontalGroup(
+            jpanel_AdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jpanel_AdminLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpanel_AdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_man_usuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jpanel_AdminLayout.setVerticalGroup(
+            jpanel_AdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpanel_AdminLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_man_usuarios)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,7 +173,8 @@ public class Funcionario_Main extends javax.swing.JFrame {
                     .addComponent(fun_btn_realizarprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(200, Short.MAX_VALUE))
+                .addContainerGap(385, Short.MAX_VALUE))
+            .addComponent(jpanel_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +185,8 @@ public class Funcionario_Main extends javax.swing.JFrame {
                 .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(jpanel_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -141,6 +230,11 @@ public class Funcionario_Main extends javax.swing.JFrame {
         funPrestamos.setVisible(true);
     }//GEN-LAST:event_fun_btn_realizarprestamoActionPerformed
 
+    private void btn_man_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_man_usuariosActionPerformed
+        Administrador_Manten_Usuarios man_usuarios = new Administrador_Manten_Usuarios(this.administrador);
+        man_usuarios.setVisible(true);
+    }//GEN-LAST:event_btn_man_usuariosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -178,10 +272,17 @@ public class Funcionario_Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_man_usuarios;
     private javax.swing.JButton fun_btn_realizarprestamo;
     private javax.swing.JButton fun_btn_renopendientes;
     private javax.swing.JButton fun_btn_vigentes;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel jpanel_Admin;
     private javax.swing.JLabel label_titulo;
     // End of variables declaration//GEN-END:variables
 }

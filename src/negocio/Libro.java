@@ -61,6 +61,11 @@ public class Libro {
         this.traerLibrosTabla();
     }
     
+    /**
+     *
+     * @param idLibro
+     * @throws Exception
+     */
     public Libro(int idLibro) throws Exception{
         this.setId(idLibro);
     }
@@ -105,6 +110,12 @@ public class Libro {
         }
     }
 
+    /**
+     *
+     * @param filtro_nombre
+     * @return
+     * @throws Exception
+     */
     public ResultSet filtrarLibreria(String filtro_nombre) throws Exception {
         try {
             DatosLibro datosLibro = new DatosLibro();

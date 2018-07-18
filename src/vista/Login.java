@@ -8,6 +8,7 @@ package vista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.Administrador;
 import negocio.Funcionario;
 import negocio.Usuario;
 
@@ -25,9 +26,11 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form login
      */
-    public Login() {
+    public Login() {     
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Inicio de sesion en sistema de Librerias");
+        this.setResizable(false);
     }
 
     /**
@@ -134,6 +137,10 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Acceso Correcto!", "Exito!", JOptionPane.PLAIN_MESSAGE);
                 switch (usuario.getPerfil()) {
                     case 1:
+                        Administrador administrador = new Administrador(usuario.getId(), usuario.getRut(), usuario.getNombre(), usuario.getPerfil(), usuario.getSede());
+                        Funcionario_Main vista_administrador = new Funcionario_Main(administrador);
+                        vista_administrador.setVisible(true);
+                        this.setVisible(false);
                         break;
                     case 2:
                         Funcionario funcionario = new Funcionario(usuario.getId(), usuario.getRut(), usuario.getNombre(), usuario.getPerfil(), usuario.getSede(), usuario.getCarrera());

@@ -78,6 +78,10 @@ public class Prestamo {
         this.dbPrestamo = new DatosPrestamo();
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     public Prestamo() throws Exception {
         this.dbPrestamo = new DatosPrestamo();
     }
@@ -85,11 +89,6 @@ public class Prestamo {
     /**
      *
      * @return @throws SQLException
-     * @return 1 = Prestamo tiene atrasos
-     * @return 2 = No se puede renovar por cantidad de renovaciones y Demanda
-     * Alta
-     * @return 3 = No se puede renovar por cantidad de renovaciones
-     * @return 4 = Permite renovar
      * @throws Exception
      */
     public int obtenerDatos() throws SQLException, Exception {
@@ -131,6 +130,10 @@ public class Prestamo {
         }
     }
 
+    /**
+     *
+     * @throws SQLException
+     */
     public void registrarRenovacion() throws SQLException {
         this.getDbPrestamo().registrarRenovacion(this.getIdPrestamo(), this.calcularDias(this.getFechaEntrega(),this.getDiasAgregarReno()));
     }
@@ -149,6 +152,11 @@ public class Prestamo {
         this.getDbPrestamo().registrarDevolucionMultada(multa);
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     public int registrarPrestamo() throws Exception {
         this.dbPrestamo.setPrestamo_usuario(this.getPrestamo_usuario());
         this.dbPrestamo.setPrestamo_libro(this.getPrestamo_libro());
