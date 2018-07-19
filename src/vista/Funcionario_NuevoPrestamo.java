@@ -253,7 +253,7 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
                     break;
                 case "Normal":
                     advertencia = (this.usuarioaPrestar.getPerfil() == 3) ? "10 dias." : "5 dias.";
-                    this.fprestamo_label_advertencia.setText("Advertencia: El texto solicitado es de demanda Alta. La duración del prestamo será de " + advertencia);
+                    this.fprestamo_label_advertencia.setText("Advertencia: El texto solicitado es de demanda Normal. La duración del prestamo será de " + advertencia);
                     this.fprestamo_label_advertencia.setForeground(Color.BLACK);
                     this.libroaPrestar.setDemanda("Normal");
                     break;
@@ -271,6 +271,7 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
             this.prestamoNuevo.setPrestamo_funcionario(this.funcionario.getId());
             this.prestamoNuevo.registrarPrestamo();
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Funcionario_NuevoPrestamo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_fprestamo_submitActionPerformed

@@ -78,16 +78,30 @@ public class DatosUsuario {
         return res;
     }
 
+    public boolean buscarDuplicado(String rut) throws SQLException {
+        boolean res = false;
+        try {
+            this.setComando(this.getConexion().createStatement());
+            String sql = "select * from usuario where rut='" + rut + "'";
+            setResultado(getComando().executeQuery(sql));
+            while (getResultado().next()) {
+                res = true;
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+        return res;
+    }
+
     /**
      *
-     * @return
-     * @throws SQLException
+     * @return @throws SQLException
      */
     public boolean obtenerDatosPrestamo() throws SQLException {
         boolean res = false;
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "SELECT * FROM `usuario_multas` WHERE rut='" + this.getRut()+"'";
+            String sql = "SELECT * FROM `usuario_multas` WHERE rut='" + this.getRut() + "'";
 
             setResultado(getComando().executeQuery(sql));
             while (getResultado().next()) {
@@ -106,8 +120,7 @@ public class DatosUsuario {
 
     /**
      *
-     * @return
-     * @throws java.sql.SQLException
+     * @return @throws java.sql.SQLException
      */
     public ResultSet traerTodo() throws SQLException {
         try {

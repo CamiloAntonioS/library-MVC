@@ -8,6 +8,7 @@ package negocio;
 import datos.DatosUsuario;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import vista.ValidacionRut;
 
 /**
  *
@@ -226,6 +227,11 @@ public class Usuario {
         
         return rs;
     }
+    
+    public boolean buscarDuplicado() throws Exception{
+        this.setDbUsuario(new DatosUsuario());
+        return this.getDbUsuario().buscarDuplicado(this.getRut());
+    }
 
     /**
      * @param id the id to set
@@ -237,8 +243,13 @@ public class Usuario {
     /**
      * @param rut the rut to set
      */
-    public void setRut(String rut) {
-        this.rut = rut;
+    public void setRut(String rut) throws Exception {
+        if(!ValidacionRut.IngresoRut(rut)){
+            throw new Exception("El rut ingresado no es Valido!.");
+        }
+        else{
+            this.rut = rut;
+        }
     }
 
     /**

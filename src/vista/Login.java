@@ -123,17 +123,15 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void login_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_submitActionPerformed
-        username = login_usuario.getText();
-        String password = login_password.getText();
-        //Validaciones Iniciales para verificar rut
-        if (ValidacionRut.IngresoRut(username)) {
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Rut ingresado no es valido!", "Rut mal ingresado!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Usuario usuario = new Usuario(username, password);
         try {
+            username = login_usuario.getText();
+            String password = login_password.getText();
+            //Validaciones Iniciales para verificar rut
+            if (!ValidacionRut.IngresoRut(username)) {
+                JOptionPane.showMessageDialog(null, "Rut ingresado no es valido!", "Rut mal ingresado!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Usuario usuario = new Usuario(username, password);
             if (usuario.iniciarSesion(username, password)) {
                 JOptionPane.showMessageDialog(null, "Acceso Correcto!", "Exito!", JOptionPane.PLAIN_MESSAGE);
                 switch (usuario.getPerfil()) {

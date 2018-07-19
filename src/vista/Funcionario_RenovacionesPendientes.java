@@ -54,6 +54,17 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
         }
     }
 
+    private void filtrarPrestamosAceptacion() {
+        try {
+            String nombreLibro = this.frenodev_filtro_nombre.getText();
+            String rut = this.frenodev_filtro_rut.getText();
+            ResultSet rs = this.funcionario.filtrarPrestamosAceptacionBiblioteca(nombreLibro,rut);
+            this.llenarTabla(rs);
+        } catch (Exception ex) {
+            Logger.getLogger(Funcionario_RenovacionesPendientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void llenarTabla(ResultSet rs) throws SQLException {
         while (frenopend_tabla.getRowCount() > 0) {
             ((DefaultTableModel) frenopend_tabla.getModel()).removeRow(0);
@@ -82,7 +93,7 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
         frenopend_tabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         frenodev_filtro_nombre = new javax.swing.JTextField();
-        frenodev_filtro_nombre1 = new javax.swing.JTextField();
+        frenodev_filtro_rut = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         fun_btn_realreno = new javax.swing.JButton();
 
@@ -123,9 +134,19 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
 
         frenodev_filtro_nombre.setColumns(10);
         frenodev_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                frenodev_filtro_nombreKeyReleased(evt);
+            }
+        });
 
-        frenodev_filtro_nombre1.setColumns(10);
-        frenodev_filtro_nombre1.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_rut.setColumns(10);
+        frenodev_filtro_rut.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        frenodev_filtro_rut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                frenodev_filtro_rutKeyReleased(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         jLabel10.setText("Filtro por Rut Usuario");
@@ -159,7 +180,7 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(frenodev_filtro_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(frenodev_filtro_rut, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -174,7 +195,7 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(frenodev_filtro_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(frenodev_filtro_nombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(frenodev_filtro_rut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(fun_btn_realreno)
@@ -214,13 +235,22 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
                         }
                         break;
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un registro de la grilla.", "Error!", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
-            System.out.println(ex);
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_fun_btn_realrenoActionPerformed
+
+    private void frenodev_filtro_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_frenodev_filtro_nombreKeyReleased
+        filtrarPrestamosAceptacion();
+    }//GEN-LAST:event_frenodev_filtro_nombreKeyReleased
+
+    private void frenodev_filtro_rutKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_frenodev_filtro_rutKeyReleased
+        filtrarPrestamosAceptacion();
+    }//GEN-LAST:event_frenodev_filtro_rutKeyReleased
 
     /**
      * @param args the command line arguments
@@ -260,7 +290,7 @@ public class Funcionario_RenovacionesPendientes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField frenodev_filtro_nombre;
-    private javax.swing.JTextField frenodev_filtro_nombre1;
+    private javax.swing.JTextField frenodev_filtro_rut;
     private javax.swing.JTable frenopend_tabla;
     private javax.swing.JButton fun_btn_realreno;
     private javax.swing.JLabel jLabel1;

@@ -5,11 +5,15 @@
  */
 package vista;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import negocio.Administrador;
 import negocio.Usuario;
 
@@ -26,6 +30,7 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
      */
     public Administrador_Manten_Usuarios() {
         initComponents();
+        this.archivo.setFileFilter(new FileNameExtensionFilter("CSV", "csv"));
     }
 
     /**
@@ -41,6 +46,7 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
             this.llenarComboBox(this.administrador.getPerfiles(), this.cbx_perfiles);
             this.llenarComboBox(this.administrador.getSedes(), this.cbx_sedes);
             this.llenarComboBox(this.administrador.getCarreras(), this.cbx_carreras);
+            this.archivo.setFileFilter(new FileNameExtensionFilter("CSV (*.csv)", "csv"));
         } catch (SQLException ex) {
             Logger.getLogger(Administrador_Manten_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -48,8 +54,9 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
 
     /**
      * Llenador de ComboBox reutilizable
+     *
      * @param objetos
-     * @param llenado 
+     * @param llenado
      */
     private void llenarComboBox(ArrayList<String> objetos, JComboBox llenado) {
         for (String objeto : objetos) {
@@ -66,6 +73,7 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        archivo = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -82,10 +90,15 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
         cbx_carreras = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txt_pass = new javax.swing.JTextField();
+        btn_registrar_csv = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Admin_ManAutor_Tabla = new javax.swing.JTable();
         btn_AdminManAutor_modificar = new javax.swing.JButton();
+
+        archivo.setAcceptAllFileFilterUsed(false);
+        archivo.setApproveButtonText("Seleccionar");
+        archivo.setApproveButtonToolTipText("");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -132,6 +145,14 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
 
         txt_pass.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
 
+        btn_registrar_csv.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        btn_registrar_csv.setText("Registro Masivo CSV");
+        btn_registrar_csv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_registrar_csvActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,32 +162,32 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btn_registrar_usuario)
-                        .addGap(513, 513, 513))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_registrar_csv)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(59, 59, 59)
+                        .addComponent(cbx_carreras, 0, 523, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(59, 59, 59)
-                                .addComponent(cbx_carreras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel3))
-                                .addGap(70, 70, 70)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbx_perfiles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbx_sedes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_pass)
-                                    .addComponent(txt_rut)
-                                    .addComponent(txt_nombre))))
-                        .addContainerGap())))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel3))
+                        .addGap(70, 70, 70)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbx_perfiles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbx_sedes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_pass)
+                            .addComponent(txt_rut)
+                            .addComponent(txt_nombre))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +217,9 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(cbx_carreras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(btn_registrar_usuario)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_registrar_usuario)
+                    .addComponent(btn_registrar_csv))
                 .addContainerGap())
         );
 
@@ -293,9 +316,26 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
             usuario.setSede(Integer.valueOf(this.cbx_sedes.getSelectedItem().toString().split(":")[0]));
             this.administrador.registrarUsuario(usuario);
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema con la conexión a la base de datos.\nFavor contactar a su administrador.", "Datos Incorrectos", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Administrador_Manten_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Datos Incorrectos", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Administrador_Manten_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_registrar_usuarioActionPerformed
+
+    private void btn_registrar_csvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registrar_csvActionPerformed
+        try {
+            this.archivo.showOpenDialog(this);
+            String archivoCSV = this.archivo.getSelectedFile().getAbsolutePath();
+            BufferedReader archivoObtenido = new BufferedReader(new FileReader(archivoCSV));
+            this.administrador.ingresarRegistroCSV(archivoObtenido);
+            JOptionPane.showMessageDialog(null, "Datos agregados de manera Correcta!", "Exito!", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Datos Incorrectos", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Administrador_Manten_Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_registrar_csvActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,7 +375,9 @@ public class Administrador_Manten_Usuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Admin_ManAutor_Tabla;
+    private javax.swing.JFileChooser archivo;
     private javax.swing.JButton btn_AdminManAutor_modificar;
+    private javax.swing.JButton btn_registrar_csv;
     private javax.swing.JButton btn_registrar_usuario;
     private javax.swing.JComboBox<String> cbx_carreras;
     private javax.swing.JComboBox<String> cbx_perfiles;

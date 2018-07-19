@@ -64,7 +64,6 @@ public class Docente extends javax.swing.JFrame {
         label_titulo.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         label_titulo.setText("Prestamos vigentes");
 
-        docente_tabla.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Libreria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 11))); // NOI18N
         docente_tabla.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         docente_tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,6 +96,11 @@ public class Docente extends javax.swing.JFrame {
 
         docente_filtro_nombre.setColumns(10);
         docente_filtro_nombre.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        docente_filtro_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                docente_filtro_nombreKeyReleased(evt);
+            }
+        });
 
         docente_btn_renovar.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         docente_btn_renovar.setText("Renovar préstamo seleccionado");
@@ -199,6 +203,16 @@ public class Docente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_libreriaActionPerformed
+
+    private void docente_filtro_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_docente_filtro_nombreKeyReleased
+        try {
+            String texto_nombre = docente_filtro_nombre.getText();
+            ResultSet rs = this.docente.filtrarPrestamos(texto_nombre);
+            llenarTabla(rs);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un problema inesperado!\nFavor reintente en unos momentos", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_docente_filtro_nombreKeyReleased
 
     private void listarPrestamos() {
         try {

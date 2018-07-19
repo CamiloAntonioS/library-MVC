@@ -272,10 +272,11 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                         }
                         break;
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un registro de la grilla.", "Error!", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);
-            System.out.println(ex);
             Logger.getLogger(Funcionario_RevisarPrestamos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_fun_btn_realrenoActionPerformed
@@ -324,6 +325,8 @@ public class Funcionario_RevisarPrestamos extends javax.swing.JFrame {
                             break;
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione un registro de la grilla.", "Error!", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error!\nFavor contactarse con el Administrador de la plataforma.", "Error!", JOptionPane.ERROR_MESSAGE);

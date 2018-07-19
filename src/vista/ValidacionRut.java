@@ -4,7 +4,7 @@ package vista;
  *
  * @author Renzo
  */
-public class ValidacionRut {
+public  class ValidacionRut {
 
     private static int verificadorIni = 0;
     private static String VerifiStringIni = "";
@@ -15,22 +15,28 @@ public class ValidacionRut {
      * @param RutJunto
      * @return
      */
-    public static boolean IngresoRut(String RutJunto){
-        int RutUsuario[] = new int[10];
-        String VerificadorFinal = "";
+    public static boolean IngresoRut(String RutJunto) throws Exception {
+        try {
+            int RutUsuario[] = new int[10];
 
-        if (RutJunto.equals("0")) {
-            return false;
-        }
-        SacarVerificador(RutJunto);
-        SepararRut(RutUsuario);
-        VerificadorFinal = CalcularVerificador(RutUsuario) + "";
-        CompararVerifi(VerifiStringIni, VerificadorFinal);
-        if (!CompararVerifi(VerifiStringIni, VerificadorFinal)) {
-            return false;
-        }
-        else{
-            return true;
+            String VerificadorFinal = "";
+
+            if (RutJunto.equals("0")) {
+                return false;
+            }
+            SacarVerificador(RutJunto);
+            SepararRut(RutUsuario);
+            VerificadorFinal = CalcularVerificador(RutUsuario) + "";
+            CompararVerifi(VerifiStringIni, VerificadorFinal);
+            if (!CompararVerifi(VerifiStringIni, VerificadorFinal)) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (java.lang.NumberFormatException ex) {
+            throw new  Exception("El formato ingresado para el rut es invalido!\nDebe ingresar su rut sin puntos y con guión\n(Ej: 11222333-4)."); 
+        } catch (Exception ex) {
+            throw new  Exception("Ha ocurrido un error inesperado al validar su rut."); 
         }
 
     }
@@ -77,8 +83,9 @@ public class ValidacionRut {
     }
 
     private static boolean CompararVerifi(String Inicial, String Obtenido) {
-        if (Inicial.equals("10")) {
-            Inicial = "k";
+        Inicial = Inicial.toLowerCase();
+        if (Obtenido.equals("10")) {
+            Obtenido = "k";
         }
         if (Inicial.equals(Obtenido)) {
             return true;

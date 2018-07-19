@@ -30,7 +30,7 @@ public class DatosFuncionario extends DatosUsuario {
     public ResultSet listarMultadosSede(int sede) throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "SELECT * FROM usuario_multas WHERE sede_id=" + sede;
+            String sql = "SELECT rut,nombre,perfil,sede,multa_pagada FROM usuario_multas WHERE sede_id=" + sede;
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {
@@ -41,7 +41,7 @@ public class DatosFuncionario extends DatosUsuario {
     public ResultSet listarMultados() throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
-            String sql = "SELECT * FROM usuario_multas";
+            String sql = "SELECT rut,nombre,perfil,sede,multa_pagada FROM usuario_multas";
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {

@@ -135,7 +135,7 @@ public class Prestamo {
      * @throws SQLException
      */
     public void registrarRenovacion() throws SQLException {
-        this.getDbPrestamo().registrarRenovacion(this.getIdPrestamo(), this.calcularDias(this.getFechaEntrega(),this.getDiasAgregarReno()));
+        this.getDbPrestamo().registrarRenovacion(this.getIdPrestamo(), this.calcularDias(this.getFechaEntrega(), this.getDiasAgregarReno()));
     }
 
     /**
@@ -154,34 +154,40 @@ public class Prestamo {
 
     /**
      *
-     * @return
-     * @throws Exception
+     * @return @throws Exception
      */
     public int registrarPrestamo() throws Exception {
-        this.dbPrestamo.setPrestamo_usuario(this.getPrestamo_usuario());
-        this.dbPrestamo.setPrestamo_libro(this.getPrestamo_libro());
-        this.dbPrestamo.setPrestamo_sede(this.getPrestamo_sede());
-        this.dbPrestamo.setDemanda_libro(this.getDemanda_libro());
-        this.dbPrestamo.setPrestamo_funcionario(this.getPrestamo_funcionario());
-        //Calculo de fecha a registrar de acuerdo a demanda y perfil del Usuario al que se le prestara el libro
-        Date fechaDB = null;
-        Date ahora = new java.sql.Date(new java.util.Date().getTime());
-        if (this.getPerfil_usuario() == 4) {
-            if (this.getDemanda_libro().equals("Alta")) {
-                fechaDB = this.calcularDias(ahora, 2);
-            } else if (this.getDemanda_libro().equals("Normal")) {
-                fechaDB = this.calcularDias(ahora, 5);
+        try {
+            this.dbPrestamo.setPrestamo_usuario(this.getPrestamo_usuario());
+            this.dbPrestamo.setPrestamo_libro(this.getPrestamo_libro());
+            this.dbPrestamo.setPrestamo_sede(this.getPrestamo_sede());
+            this.dbPrestamo.setDemanda_libro(this.getDemanda_libro());
+            this.dbPrestamo.setPrestamo_funcionario(this.getPrestamo_funcionario());
+            //Calculo de fecha a registrar de acuerdo a demanda y perfil del Usuario al que se le prestara el libro
+            Date fechaDB = null;
+            Date ahora = new java.sql.Date(new java.util.Date().getTime());
+            if (this.getPerfil_usuario() == 4) {
+                if (this.getDemanda_libro().equals("Alta")) {
+                    fechaDB = this.calcularDias(ahora, 2);
+                } else if (this.getDemanda_libro().equals("Normal")) {
+                    fechaDB = this.calcularDias(ahora, 5);
+                }
+            } //Camino para Perfil de Docente
+            else if (this.getPerfil_usuario() == 3) {
+                if (this.getDemanda_libro().equals("Alta")) {
+                    fechaDB = this.calcularDias(ahora, 3);
+                } else if (this.getDemanda_libro().equals("Normal")) {
+                    fechaDB = this.calcularDias(ahora, 10);
+                }
             }
-        } //Camino para Perfil de Docente
-        else if (this.getPerfil_usuario() == 3) {
-            if ( this.getDemanda_libro().equals("Alta")) {
-               fechaDB = this.calcularDias(ahora, 3);
-            }
-            else if (this.getDemanda_libro().equals("Normal")) {
-                fechaDB = this.calcularDias(ahora, 10);
-            }
+            return this.dbPrestamo.registrarPrestamo(fechaDB);
+        } catch (NullPointerException ex) {
+            throw new Exception("No ha seleccionado ningun libro a prestar.");
+        } catch (SQLException ex) {
+            throw new Exception("Ha ocurrido un problema en la conexión con la base de datos.\nFavor contacte al administrador de la plataforma.");
+        } catch (Exception ex) {
+            throw new Exception("Ha ocurrido un error inesperado!.\nFavor contacte al administrador de la plataforma.");
         }
-        return this.dbPrestamo.registrarPrestamo(fechaDB);
     }
 
     /**
