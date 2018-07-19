@@ -23,7 +23,7 @@ public class Conexion {
         conexion = null;
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost/libreria?user=db_libreria&password=libreria_pass");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost/libreria?user=root&password=");
         }
         catch(ClassNotFoundException ex){
             throw new Exception("Falta el Driver de Mysql");
