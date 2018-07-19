@@ -76,8 +76,7 @@ public class Funcionario extends Usuario {
 
     /**
      *
-     * @return
-     * @throws SQLException
+     * @return @throws SQLException
      * @throws Exception
      */
     public ResultSet listarPrestamosBiblioteca() throws SQLException, Exception {
@@ -112,8 +111,7 @@ public class Funcionario extends Usuario {
 
     /**
      *
-     * @return
-     * @throws SQLException
+     * @return @throws SQLException
      * @throws Exception
      */
     public ResultSet listarPrestamosAceptacionBiblioteca() throws SQLException, Exception {
@@ -146,5 +144,71 @@ public class Funcionario extends Usuario {
         }
     }
 
+    public ResultSet listarMultados() throws SQLException, Exception {
+        try {
+            this.setDbFuncionario(new DatosFuncionario());
+            ResultSet rs;
+            if (this.getPerfil() == 2) {
+                rs = this.getDbFuncionario().listarMultadosSede(this.getSede());
+                return rs;
+            } else if (this.getPerfil() == 1) {
+                rs = this.getDbFuncionario().listarMultados();
+                return rs;
+            } else {
+                throw new Exception("Ha ocurrido un error al validar su perfil, favor inicie sesion nuevamente.");
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+
+    public int totalMultas() throws SQLException, Exception {
+        try {
+            int total;
+            this.setDbFuncionario(new DatosFuncionario());
+            switch (this.getPerfil()) {
+                case 2:
+                    total = this.getDbFuncionario().totalMultasSede(this.getSede());
+                    return total;
+                case 1:
+                    total = this.getDbFuncionario().totalMultas();
+                    return total;
+                default:
+                    throw new Exception("Ha ocurrido un error al validar su perfil, favor inicie sesion nuevamente.");
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+
+    public String libroMasMultado() throws SQLException, Exception {
+        try {
+            String libro;
+            this.setDbFuncionario(new DatosFuncionario());
+            switch (this.getPerfil()) {
+                case 2:
+                    libro = this.getDbFuncionario().libroMasMultadoSede(this.getSede());
+                    return libro;
+                case 1:
+                    libro = this.getDbFuncionario().libroMasMultado();
+                    return libro;
+                default:
+                    throw new Exception("Ha ocurrido un error al validar su perfil, favor inicie sesion nuevamente.");
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
+
+    public String sedeMasMultada() throws SQLException, Exception {
+        try {
+            String sede;
+            this.setDbFuncionario(new DatosFuncionario());
+            sede = this.getDbFuncionario().sedeMasMultada();
+            return sede;
+        } catch (SQLException ex) {
+            throw ex;
+        }
+    }
 
 }

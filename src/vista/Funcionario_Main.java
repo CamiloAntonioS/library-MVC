@@ -54,6 +54,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
         this.setResizable(false);
         this.funcionario = new Funcionario();
         this.funcionario.setId(this.administrador.getId());
+        this.funcionario.setPerfil(this.administrador.getPerfil());
         this.funcionario.setSede(this.administrador.getSede());
     }
 
@@ -78,6 +79,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         btn_man_usuarios = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        fun_btn_multas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,9 +150,9 @@ public class Funcionario_Main extends javax.swing.JFrame {
         jpanel_AdminLayout.setVerticalGroup(
             jpanel_AdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpanel_AdminLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_man_usuarios)
@@ -160,21 +162,30 @@ public class Funcionario_Main extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        fun_btn_multas.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        fun_btn_multas.setText("<html><center>Multas Cobradas</center></html>");
+        fun_btn_multas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fun_btn_multasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpanel_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fun_btn_realizarprestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(385, Short.MAX_VALUE))
-            .addComponent(jpanel_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fun_btn_multas, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,8 +196,10 @@ public class Funcionario_Main extends javax.swing.JFrame {
                 .addComponent(fun_btn_vigentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(fun_btn_renopendientes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jpanel_Admin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(fun_btn_multas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(jpanel_Admin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -235,6 +248,11 @@ public class Funcionario_Main extends javax.swing.JFrame {
         man_usuarios.setVisible(true);
     }//GEN-LAST:event_btn_man_usuariosActionPerformed
 
+    private void fun_btn_multasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fun_btn_multasActionPerformed
+        Funcionario_Multas multas = new Funcionario_Multas(this.funcionario);
+        multas.setVisible(true);
+    }//GEN-LAST:event_fun_btn_multasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -273,6 +291,7 @@ public class Funcionario_Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_man_usuarios;
+    private javax.swing.JButton fun_btn_multas;
     private javax.swing.JButton fun_btn_realizarprestamo;
     private javax.swing.JButton fun_btn_renopendientes;
     private javax.swing.JButton fun_btn_vigentes;

@@ -91,11 +91,11 @@ public class DatosUsuario {
 
             setResultado(getComando().executeQuery(sql));
             while (getResultado().next()) {
-                this.setId(getResultado().getInt("id"));
+                this.setId(getResultado().getInt("id_usuario"));
                 this.setNombre(getResultado().getString("nombre"));
-                this.setPerfil(getResultado().getInt("perfil"));
-                this.setSede(getResultado().getInt("sede"));
-                this.setMultaAcumulada(getResultado().getInt("multa_acumulada"));
+                this.setPerfil(getResultado().getInt("perfil_id"));
+                this.setSede(getResultado().getInt("sede_id"));
+                this.setMultaAcumulada(getResultado().getInt("multa_pagada"));
                 res = true;
             }
         } catch (SQLException ex) {
@@ -107,18 +107,17 @@ public class DatosUsuario {
     /**
      *
      * @return
+     * @throws java.sql.SQLException
      */
-    public ResultSet traerTodo() {
-
+    public ResultSet traerTodo() throws SQLException {
         try {
             this.setComando(this.getConexion().createStatement());
             String sql = "SELECT * FROM usuario ORDER BY id";
             setResultado(getComando().executeQuery(sql));
             return getResultado();
         } catch (SQLException ex) {
-            return null;
+            throw ex;
         }
-
     }
 
     /**

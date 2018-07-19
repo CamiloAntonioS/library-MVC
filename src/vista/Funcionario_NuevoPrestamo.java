@@ -197,7 +197,13 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
 
     private void btn_validarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_validarUsuarioActionPerformed
         try {
-            String usuarioRut = this.txt_rut_usuario.getText();
+            String usuarioRut = "";
+            if (!this.txt_rut_usuario.getText().equals("")) {
+                usuarioRut = this.txt_rut_usuario.getText();
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese un rut!", "Dato no ingresado!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (ValidacionRut.IngresoRut(usuarioRut)) {
                 this.usuarioaPrestar = new Usuario(usuarioRut);
                 this.libroaPrestar = new Libro();
@@ -214,6 +220,7 @@ public class Funcionario_NuevoPrestamo extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Funcionario_NuevoPrestamo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_validarUsuarioActionPerformed
 
